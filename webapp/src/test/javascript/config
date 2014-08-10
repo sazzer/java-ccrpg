@@ -1,0 +1,3 @@
+"baseUrl": 'target/${project.build.finalName}/resources/js',
+shim: {
+}
