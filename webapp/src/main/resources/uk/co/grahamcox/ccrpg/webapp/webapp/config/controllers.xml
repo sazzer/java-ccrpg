@@ -5,6 +5,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
+    <bean class="uk.co.grahamcox.ccrpg.webapp.DebugController">
+        <property name="clock" ref="clock" />
+    </bean>
 </beans>
 
 
