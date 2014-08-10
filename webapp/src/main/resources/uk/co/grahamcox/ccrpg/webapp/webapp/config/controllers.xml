@@ -8,6 +8,9 @@
     <bean class="uk.co.grahamcox.ccrpg.webapp.DebugController">
         <property name="clock" ref="clock" />
     </bean>
+    <bean class="uk.co.grahamcox.ccrpg.webapp.HomeController">
+        <property name="clock" ref="clock" />
+    </bean>
 </beans>
 
 
