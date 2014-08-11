@@ -7,10 +7,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title><spring:message code="page.title" /></title>
         <link type="text/css" rel="stylesheet" href="resources/css/main.css" />
+        <script type="text/javascript" src="resources/js/jquery.js"></script>
         <script type="text/javascript" src="resources/js/require.js"></script>
         <!-- Page generated at ${now} -->
     </head>
     <body>
         This is the home page
+        <script type="text/javascript" src="resources/js/app.js"></script>
     </body>
 </html>
