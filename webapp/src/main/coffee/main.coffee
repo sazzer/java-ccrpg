@@ -1,5 +1,4 @@
-define(['crossroads', 'hasher'], (crossroads, hasher) ->
-
+define(['crossroads', 'hasher', "i18next"], (crossroads, hasher, i18next) ->
   # Set up the Crossroads Routing
   crossroads.routed.add(console.log, console)
 
@@ -10,6 +9,12 @@ define(['crossroads', 'hasher'], (crossroads, hasher) ->
 
   hasher.initialized.add parseHash
   hasher.changed.add parseHash
-  hasher.init()
+
+  # Actually start things running
+  i18next.init({
+    resGetPath: 'locales/__ns__/__lng__'
+    }, () ->
+    hasher.init()
+  )
 
 )

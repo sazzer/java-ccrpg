@@ -6,7 +6,8 @@
         'crossroads': '${basedir}/src/main/javascript/components/crossroads/dist/crossroads',
         'hasher': '${basedir}/src/main/javascript/components/hasher/dist/js/hasher',
         'signals': '${basedir}/src/main/javascript/components/js-signals/dist/signals',
-        'js-signals': '${basedir}/src/main/javascript/components/js-signals/dist/signals'
+        'js-signals': '${basedir}/src/main/javascript/components/js-signals/dist/signals',
+        'i18next': '${basedir}/src/main/javascript/components/i18next/i18next.amd.withJQuery'
     },
     shim: {
     },

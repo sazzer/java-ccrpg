@@ -8,6 +8,8 @@
     <bean class="uk.co.grahamcox.ccrpg.webapp.HomeController">
         <constructor-arg index="0" ref="clock" />
     </bean>
+    <bean class="uk.co.grahamcox.ccrpg.webapp.TranslationController">
+    </bean>
     <bean class="uk.co.grahamcox.ccrpg.webapp.DebugController">
         <constructor-arg index="0" ref="clock" />
         <constructor-arg index="1" value="classpath:/build.info" />
