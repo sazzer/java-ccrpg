@@ -9,6 +9,7 @@
         <constructor-arg index="0" ref="clock" />
     </bean>
     <bean class="uk.co.grahamcox.ccrpg.webapp.TranslationController">
+        <constructor-arg index="0" ref="messageSource" />
     </bean>
     <bean class="uk.co.grahamcox.ccrpg.webapp.DebugController">
         <constructor-arg index="0" ref="clock" />
