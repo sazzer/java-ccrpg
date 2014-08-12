@@ -8,6 +8,8 @@
     <context:property-placeholder />
 
     <bean id="clock" class="java.time.Clock" factory-method="systemUTC" />
+
+    <import resource="db/db.xml" />
 </beans>
 
 

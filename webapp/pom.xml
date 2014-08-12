@@ -22,6 +22,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
         <dependency>
@@ -68,6 +72,14 @@
            <groupId>org.apache.tomcat.embed</groupId>
            <artifactId>tomcat-embed-websocket</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -78,12 +90,12 @@
                     <webApp>
                         <contextPath>/</contextPath>
                     </webApp>
-                    <properties>
-                        <property>
+                    <systemProperties>
+                        <systemProperty>
                             <name>spring.profiles.active</name>
-                            <value>dev,prod</value>
-                        </property>
-                    </properties>
+                            <value>dev</value>
+                        </systemProperty>
+                    </systemProperties>
                 </configuration>
             </plugin>
             <plugin>
