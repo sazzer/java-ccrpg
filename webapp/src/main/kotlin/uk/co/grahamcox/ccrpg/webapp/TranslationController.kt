@@ -26,8 +26,9 @@ class TranslationController(private val messageSource: ExposedMessageSource) {
     [ResponseBody]
     fun loadTranslations([PathVariable(value = "locale")] locale: String) : Map<String, Any> {
         val result = hashMapOf<String, Any>()
+        val allMessages = messageSource.getAllMessages(Locale.forLanguageTag(locale))
 
-        messageSource.getAllMessages(Locale.forLanguageTag(locale)).forEach { it ->
+        allMessages.forEach { it ->
             val key = it.key.toString().split("\\.")
             val fieldName = key.last()
             key.take(key.size - 1).fold(result) { a, b ->
