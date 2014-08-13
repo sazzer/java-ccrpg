@@ -1,12 +1,13 @@
 define(["ccrpg/base"], (Base) ->
   class MainPage extends Base
-    @wrapperNode = "div"
+    @wrapperNode = "<div />"
     @markup = ""
 
     render: () ->
       container = @get("container")
 
-      @outerNode = container.append($(@constructor.wrapperNode))
+      @outerNode = $(@constructor.wrapperNode)
+      container.append(@outerNode)
       if (@constructor.markup)
         @outerNode.append($(@constructor.markup))
 
