@@ -1,4 +1,4 @@
-define(['crossroads', 'hasher', "i18next"], (crossroads, hasher, i18next) ->
+define(['ccrpg/ui/mainPage', 'crossroads', 'hasher', "i18next"], (MainPage, crossroads, hasher, i18next) ->
   # Set up the Crossroads Routing
   crossroads.routed.add(console.log, console)
 
@@ -14,7 +14,10 @@ define(['crossroads', 'hasher', "i18next"], (crossroads, hasher, i18next) ->
   i18next.init({
     resGetPath: 'locales/__ns__/__lng__'
     }, () ->
-    hasher.init()
+      mainPage = new MainPage({
+        container: $("body")
+      }).render()
+      hasher.init()
   )
 
 )
