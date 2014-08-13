@@ -13,7 +13,7 @@ define(["ccrpg/base"], (Base) ->
 
       @outerNode = $(@constructor.wrapperNode)
       @outerNode.addClass(@constructor.name + "Widget")
-      
+
       if (@constructor.markup)
         @outerNode.append($(@constructor.markup))
 
