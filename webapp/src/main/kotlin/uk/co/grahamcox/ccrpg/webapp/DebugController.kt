@@ -10,20 +10,17 @@ import java.util.Properties
 import org.springframework.core.io.Resource
 
 /**
- * Helper to load the build info from the provided resource
- */
-fun loadBuildInfo(buildInfo: Resource) : Properties {
-    val properties = Properties()
-    properties.load(buildInfo.getInputStream())
-    return properties
-}
-/**
  * Controller to load the home page
  */
 [Controller]
 [RequestMapping(value = array("/api/debug"))]
-class DebugController(private val clock: Clock, buildInfo: Resource) {
-    private val properties = loadBuildInfo(buildInfo)
+class DebugController(private val clock: Clock, private val buildInfo: Resource) {
+    private val properties = Properties();
+
+    {
+        properties.load(buildInfo.getInputStream())
+    }
+
     /**
      * Get the current time according to the system
      * @return the current time
