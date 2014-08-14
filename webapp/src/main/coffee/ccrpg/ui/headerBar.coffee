@@ -6,21 +6,21 @@ define(["ccrpg/ui/widget"], (Widget) ->
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only">{{s 'toggleNavigation'}}</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#/">CCG RPG</a>
+                <a class="navbar-brand" href="#/">{{s 'pageTitle'}}</a>
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#/help">Help</a></li>
+                    <li><a href="#/help">{{s 'help'}}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#/profile">Profile</a></li>
+                    <li><a href="#/profile">{{s 'profile'}}</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{s 'login'}}<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#/login/external/facebook">Facebook</a></li>
                             <li><a href="#/login/external/google">Google+</a></li>
