@@ -43,6 +43,10 @@
           <enabled>true</enabled>
         </snapshots>
       </repository>
+      <repository>
+        <id>jetbrains-all</id>
+        <url>http://repository.jetbrains.com/all</url>
+      </repository>
     </repositories>
      
     <pluginRepositories>
@@ -102,6 +106,12 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.11</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.spek</groupId>
+                <artifactId>spek</artifactId>
+                <version>0.1.127</version>
                 <scope>test</scope>
             </dependency>
             <!-- Validation -->
@@ -256,6 +266,10 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.spek</groupId>
+            <artifactId>spek</artifactId>
         </dependency>
         <!-- Validation -->
         <dependency>
