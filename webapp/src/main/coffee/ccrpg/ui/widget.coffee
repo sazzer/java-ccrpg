@@ -11,14 +11,17 @@ define(["ccrpg/base"], (Base) ->
     render: () ->
       container = @get("container")
 
-      @outerNode = $(@constructor.wrapperNode)
-      @outerNode.addClass(@constructor.name + "Widget")
+      @contentBox = $(@constructor.wrapperNode)
+      @contentBox.addClass(@constructor.name + "Widget")
 
       if (@constructor.markup)
-        @outerNode.append($(@constructor.markup))
+        @contentBox.append($(@constructor.markup))
 
-      container.append(@outerNode)
+      @renderUi()
+      container.append(@contentBox)
       return this
 
+    # Perform any widget specific rendering of the UI
+    renderUi: () ->
   return Widget
 )
