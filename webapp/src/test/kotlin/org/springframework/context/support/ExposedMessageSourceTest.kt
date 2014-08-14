@@ -10,6 +10,7 @@ class ExposedMessageSourceTest : Spek() {{
         messageSource.setBasenames("classpath:/org/springframework/context/support/messages")
         messageSource.setDefaultEncoding("UTF-8")
         messageSource.setCacheSeconds(3)
+        messageSource.setFallbackToSystemLocale(false)
 
         on("calling getAllMessages with a supported locale") {
             val messages = messageSource.getAllMessages(Locale.forLanguageTag("en-GB"))
