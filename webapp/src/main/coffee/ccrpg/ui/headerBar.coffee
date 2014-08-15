@@ -1,4 +1,4 @@
-define(["ccrpg/ui/widget"], (Widget) ->
+define(["ccrpg/ui/widget", "ccrpg/session/loggedInSignal"], (Widget, LoggedInSignal) ->
   # The header bar of the application
   class HeaderBar extends Widget
 
@@ -38,6 +38,13 @@ define(["ccrpg/ui/widget"], (Widget) ->
         </div>
     </div>
     """
+
+    # Perform any widget specific rendering of the UI
+    renderUi: () ->
+      contentBox = @contentBox
+      LoggedInSignal.add (state) ->
+        contentBox.toggleClass("loggedIn", state)
+        contentBox.toggleClass("loggedOut", !state)
 
   return HeaderBar
 )

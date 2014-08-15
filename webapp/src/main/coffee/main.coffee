@@ -1,4 +1,4 @@
-define(['ccrpg/ui/mainPage', 'crossroads', 'hasher', "i18next"], (MainPage, crossroads, hasher, i18next) ->
+define(['ccrpg/ui/mainPage', 'crossroads', 'hasher', "i18next", "ccrpg/session/loggedInHandler"], (MainPage, crossroads, hasher, i18next) ->
   # Set up the Crossroads Routing
   crossroads.routed.add(console.log, console)
 
