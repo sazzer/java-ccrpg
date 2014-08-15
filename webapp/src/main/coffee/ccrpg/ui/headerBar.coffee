@@ -1,6 +1,11 @@
 define(["ccrpg/ui/widget"], (Widget) ->
   # The header bar of the application
   class HeaderBar extends Widget
+
+    # The outermost element in which the widget is rendered
+    @wrapperNode = """<div class="loggedOut"/>"""
+
+    # The actual markup to render
     @markup = """
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
@@ -18,8 +23,9 @@ define(["ccrpg/ui/widget"], (Widget) ->
                     <li><a href="#/help">{{s 'help'}}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#/profile">{{s 'profile'}}</a></li>
-                    <li class="dropdown">
+                    <li><a href="#/profile" class="loggedIn">{{s 'profile'}}</a></li>
+                    <li><a href="#/logout" class="loggedIn">{{s 'logout'}}</a></li>
+                    <li class="dropdown loggedOut">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{s 'login'}}<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#/login/external/facebook">Facebook</a></li>
