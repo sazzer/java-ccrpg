@@ -46,10 +46,11 @@ define(["ccrpg/request", "ccrpg/ui/widget", "ccrpg/session/loggedInSignal"], (Re
       request = new Request({
         url: "/api/authentication/external"
       })
-      request.go().then((result) ->
+      request.go().then((result) =>
         console.log("Received the list of authentication providers to work with")
-        for k,v of result.data
-          markup = """<li><a href="#/login/external/#{k}">#{v}</a></li>"""
+        for service in result.data
+          serviceLabel = @getString("authentication.external.#{service}")
+          markup = """<li><a href="#/login/external/#{service}">#{serviceLabel}</a></li>"""
           contentBox.find(".login-menu").append($(markup))
       )
 

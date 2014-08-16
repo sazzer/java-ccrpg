@@ -19,11 +19,8 @@ class ExternalAuthenticationController(val authenticationService: Authentication
      */
     [RequestMapping]
     [ResponseBody]
-    fun listProviders(): Map<String, String> {
-        val results = HashMap<String, String>()
-        authenticationService.getActiveServices().forEach { service -> results.put(service, service) }
-
-        return results
+    fun listProviders(): Collection<String> {
+        return authenticationService.getActiveServices().sort()
     }
 
 }

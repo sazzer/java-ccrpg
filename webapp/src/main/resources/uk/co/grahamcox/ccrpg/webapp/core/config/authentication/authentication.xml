@@ -6,7 +6,9 @@
     <bean id="authenticationService" class="uk.co.grahamcox.ccrpg.authentication.external.AuthenticationService">
         <constructor-arg>
             <map>
-
+                <entry key="google">
+                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.GoogleAuthenticator" />
+                </entry>
             </map>
         </constructor-arg>
     </bean>
