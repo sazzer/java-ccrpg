@@ -17,6 +17,15 @@
     </bean>
 
     <bean class="uk.co.grahamcox.ccrpg.webapp.authentication.ExternalAuthenticationController">
+        <constructor-arg index="0">
+            <bean class="uk.co.grahamcox.ccrpg.authentication.external.AuthenticationService">
+                <constructor-arg>
+                    <map>
+                        
+                    </map>
+                </constructor-arg>
+            </bean>
+        </constructor-arg>
     </bean>
 </beans>
 
