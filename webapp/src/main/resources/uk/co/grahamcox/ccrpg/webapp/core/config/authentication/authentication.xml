@@ -9,7 +9,11 @@
         <constructor-arg>
             <map>
                 <entry key="google">
-                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.GoogleAuthenticator" />
+                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.GoogleAuthenticator">
+                        <constructor-arg index="0">
+                            <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.ConfigLoader" />
+                        </constructor-arg>
+                    </bean>
                 </entry>
             </map>
         </constructor-arg>

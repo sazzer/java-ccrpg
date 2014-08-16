@@ -17,5 +17,5 @@ trait Authenticator {
      * @param nonce The nonce for the request
      * @return the URI to redirect the user to
      */
-    fun getRedirectUri(nonce: Nonce) : URI
+    fun getRedirectUri(nonce: Nonce) : URI?
 }
