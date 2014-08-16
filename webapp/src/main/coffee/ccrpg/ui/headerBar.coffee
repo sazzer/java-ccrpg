@@ -50,7 +50,7 @@ define(["ccrpg/request", "ccrpg/ui/widget", "ccrpg/session/loggedInSignal"], (Re
         console.log("Received the list of authentication providers to work with")
         for service in result.data
           serviceLabel = @getString("authentication.external.#{service}")
-          markup = """<li><a href="#/login/external/#{service}">#{serviceLabel}</a></li>"""
+          markup = """<li><a href="api/authentication/external/#{service}" target="_blank">#{serviceLabel}</a></li>"""
           contentBox.find(".login-menu").append($(markup))
       )
 

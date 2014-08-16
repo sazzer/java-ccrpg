@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import uk.co.grahamcox.ccrpg.authentication.external.AuthenticationService
 import java.util.HashMap
+import org.springframework.web.bind.annotation.PathVariable
 
 /**
  * Controller to provide access to external authentication services
@@ -21,6 +22,15 @@ class ExternalAuthenticationController(val authenticationService: Authentication
     [ResponseBody]
     fun listProviders(): Collection<String> {
         return authenticationService.getActiveServices().sort()
+    }
+
+    /**
+     * Redirect the user to the authentication endpoint for the requested provider
+     * @return the redirect to the provider
+     */
+    [RequestMapping(array("/{provider}"))]
+    fun redirect([PathVariable("provider")]provider: String): String {
+        return "redirect:http://www.google.com?q=" + provider
     }
 
 }
