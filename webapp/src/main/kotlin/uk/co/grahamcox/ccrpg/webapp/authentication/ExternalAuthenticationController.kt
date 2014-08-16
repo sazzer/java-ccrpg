@@ -6,13 +6,30 @@ import org.springframework.web.bind.annotation.ResponseBody
 import uk.co.grahamcox.ccrpg.authentication.external.AuthenticationService
 import java.util.HashMap
 import org.springframework.web.bind.annotation.PathVariable
+import uk.co.grahamcox.ccrpg.authentication.external.NonceGenerator
+import org.springframework.web.bind.annotation.ExceptionHandler
+import uk.co.grahamcox.ccrpg.authentication.external.UnsupportedProviderException
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.http.HttpStatus
 
 /**
  * Controller to provide access to external authentication services
+ * @param authenticationService the authentication service to use
+ * @param nonceGenerator The means to generate the nonce for authentication
  */
 [Controller]
 [RequestMapping(value = array("/api/authentication/external"))]
-class ExternalAuthenticationController(val authenticationService: AuthenticationService) {
+class ExternalAuthenticationController(val authenticationService: AuthenticationService,
+                                       val nonceGenerator: NonceGenerator) {
+
+    /**
+     * Handler for when an unsupported provider was requested
+     *
+     */
+    [ExceptionHandler(javaClass<UnsupportedProviderException>())]
+    [ResponseStatus(HttpStatus.NOT_FOUND)]
+    [ResponseBody]
+    fun unsupportedProvider(e: UnsupportedProviderException) = "Unsupported authentication service: ${e.name}"
 
     /**
      * Get the list of authentication providers that are supported
@@ -30,7 +47,9 @@ class ExternalAuthenticationController(val authenticationService: Authentication
      */
     [RequestMapping(array("/{provider}"))]
     fun redirect([PathVariable("provider")]provider: String): String {
-        return "redirect:http://www.google.com?q=" + provider
+        val nonce = nonceGenerator.generate()
+        val redirectUri = authenticationService.getRedirectUri(provider, nonce)
+        return "redirect:${redirectUri}"
     }
 
 }

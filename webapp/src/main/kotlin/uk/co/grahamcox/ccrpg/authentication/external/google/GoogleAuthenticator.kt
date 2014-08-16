@@ -14,6 +14,6 @@ class GoogleAuthenticator : Authenticator {
     }
     /** {@inheritDoc} */
     override fun getRedirectUri(nonce: Nonce): URI {
-        throw UnsupportedOperationException()
+        return URI("http://www.google.com?q=hello")
     }
 }

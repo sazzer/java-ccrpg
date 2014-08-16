@@ -18,6 +18,7 @@
 
     <bean class="uk.co.grahamcox.ccrpg.webapp.authentication.ExternalAuthenticationController">
         <constructor-arg index="0" ref="authenticationService" />
+        <constructor-arg index="1" ref="nonceGenerator" />
     </bean>
 </beans>
 
