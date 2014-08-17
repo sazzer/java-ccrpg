@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import uk.co.grahamcox.ccrpg.authentication.external.UnsupportedProviderException
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.http.HttpStatus
+import org.springframework.web.context.request.WebRequest
 
 /**
  * Controller to provide access to external authentication services
@@ -43,6 +44,7 @@ class ExternalAuthenticationController(val authenticationService: Authentication
 
     /**
      * Redirect the user to the authentication endpoint for the requested provider
+     * @param provider The name of the provider
      * @return the redirect to the provider
      */
     [RequestMapping(array("/{provider}"))]
@@ -50,6 +52,25 @@ class ExternalAuthenticationController(val authenticationService: Authentication
         val nonce = nonceGenerator.generate()
         val redirectUri = authenticationService.getRedirectUri(provider, nonce)
         return "redirect:${redirectUri}"
+    }
+
+    /**
+     * Handle the callback from an external authentication provider
+     * @param provider The name of the provider
+     * @param webRequest The request to get the params from
+     */
+    [RequestMapping(array("/{provider}/callback"))]
+    fun callback([PathVariable("provider")]provider: String, webRequest: WebRequest): String {
+        val nonce = nonceGenerator.generate()
+        val params = hashMapOf<String, String>()
+        for (param: String in webRequest.getParameterNames()) {
+            val paramValue = webRequest.getParameter(param)
+            if (paramValue != null) {
+                params.put(param, paramValue)
+            }
+        }
+        authenticationService.handleCallback(provider, nonce, params)
+        return "Oops"
     }
 
 }

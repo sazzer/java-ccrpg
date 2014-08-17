@@ -34,4 +34,14 @@ class AuthenticationService(val services: Map<String, Authenticator>) {
      * @return the list of all active services
      */
     fun getActiveServices() : Collection<String> = services.keySet().filter { k -> isActive(k) }
+    /**
+     * Handle the callback from authenticating a user
+     * @param name The name of the service
+     * @param nonce The nonce for the request
+     * @param params The callback parameters
+     */
+    fun handleCallback(name: String, nonce: Nonce, params: Map<String, String>) : Unit {
+        services.get(name)?.handleCallback(nonce, params)
+                ?: throw UnsupportedProviderException(name)
+    }
 }

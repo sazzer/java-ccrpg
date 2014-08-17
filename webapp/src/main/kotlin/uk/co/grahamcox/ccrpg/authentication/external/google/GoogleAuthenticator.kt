@@ -73,4 +73,12 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
         }
         return result
     }
+    /**
+     * Handle the callback from authenticating a user
+     * @param nonce The nonce for the request
+     * @param params The callback parameters
+     */
+    override fun handleCallback(nonce: Nonce, params: Map<String, String>) : Unit {
+        LOG?.debug("Handling callback for nonce {} with params {}", nonce, params)
+    }
 }

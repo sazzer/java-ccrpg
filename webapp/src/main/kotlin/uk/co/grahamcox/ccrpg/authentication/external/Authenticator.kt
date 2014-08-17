@@ -18,4 +18,10 @@ trait Authenticator {
      * @return the URI to redirect the user to
      */
     fun getRedirectUri(nonce: Nonce) : URI?
+    /**
+     * Handle the callback from authenticating a user
+     * @param nonce The nonce for the request
+     * @param params The callback parameters
+     */
+    fun handleCallback(nonce: Nonce, params: Map<String, String>) : Unit
 }
