@@ -9,9 +9,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.web.client.RestTemplate
 import org.springframework.util.LinkedMultiValueMap
 
-/** The logger to use */
-val LOG = LoggerFactory.getLogger(javaClass<GoogleAuthenticator>())
-
 /**
  * The configuration for the Google Authenticator to work
  * @param clientId The Client ID to use
@@ -56,11 +53,34 @@ data class CallbackParams(val params: Map<String, String>) {
     /** The authorization code that came back from the callback */
     val authorizationCode: String? = params.get("code")
 }
+
+/**
+ * Representation of the response from requesting the Google+ Access Token
+ */
+data class AccessTokenResponse(val params: Map<String, String>) {
+    /** The actual access token */
+    val accessToken = params.get("access_token")
+    /** The type of access token */
+    val tokenType = params.get("token_type")
+    /** The JSON Web Token for the token */
+    val jwt: JWT?
+        get() {
+            val jwtValue = params.get("id_token")
+            return when (jwtValue) {
+                is String -> JWT(jwtValue)
+                else -> null
+            }
+        }
+}
 /**
  * Authenticator for working with the Google+ Authentication API
  * @param configLoader the mechanism to load the Google+ Authentication Config
  */
 class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
+    class object {
+        /** The logger to use */
+        val LOG = LoggerFactory.getLogger(javaClass<GoogleAuthenticator>())
+    }
     /** the mechanism by which to make HTTP calls */
     var restTemplate: RestTemplate = RestTemplate()
     /** {@inheritDoc} */
@@ -103,8 +123,11 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
             tokenRequestParams.add("redirect_uri", config.redirectUri.toString())
             tokenRequestParams.add("grant_type", "authorization_code")
 
-            val tokenResponse = restTemplate.postForObject(config.tokenEndpoint, tokenRequestParams, javaClass<String>())
+            val tokenResponse = AccessTokenResponse(restTemplate.postForObject(config.tokenEndpoint,
+                    tokenRequestParams,
+                    javaClass<Map<String, String>>()) ?: throw IllegalArgumentException("No response returned"))
             LOG?.debug("Response from requesting the authorization token: {}", tokenResponse)
+            LOG?.debug("JWT: {}", tokenResponse.jwt)
         }
     }
 }
