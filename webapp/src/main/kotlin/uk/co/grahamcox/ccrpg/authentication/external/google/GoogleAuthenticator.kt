@@ -5,7 +5,21 @@ import uk.co.grahamcox.ccrpg.authentication.external.Nonce
 import java.net.URI
 import org.springframework.web.util.UriComponentsBuilder
 import uk.co.grahamcox.ccrpg.authentication.external.UnsupportedProviderException
+import org.slf4j.LoggerFactory
 
+/** The logger to use */
+val LOG = LoggerFactory.getLogger(javaClass<GoogleAuthenticator>())
+
+/**
+ * Representation of a Client ID
+ * @param value The Client ID
+ */
+data class ClientId(val value: String)
+/**
+ * Representation of a Client Secret
+ * @param value The Client Secret
+ */
+data class ClientSecret(val value: String)
 /**
  * The configuration for the Google Authenticator to work
  * @param clientId The Client ID to use
@@ -14,8 +28,8 @@ import uk.co.grahamcox.ccrpg.authentication.external.UnsupportedProviderExceptio
  * @param authorizationEndpoint The Google Authorization Endpoint to use
  * @param tokenEndpoint The Google Authorization Endpoint to use
  */
-class Config(val clientId: String,
-             val clientSecret: String,
+data class Config(val clientId: ClientId,
+             val clientSecret: ClientSecret,
              val redirectUri: URI,
              val authorizationEndpoint: URI,
              val tokenEndpoint: URI)
@@ -27,8 +41,8 @@ class ConfigLoader {
      * Load the configuration
      * @return the configuration
      */
-    fun loadConfig() : Config? = Config(clientId = "380974699378-8l31mu6eo16gbbhq3ph6i4a6ibg3asrt.apps.googleusercontent.com",
-            clientSecret = "7Ubw0_-WDRxVVZE113LfQp8Z",
+    fun loadConfig() : Config? = Config(clientId = ClientId("380974699378-8l31mu6eo16gbbhq3ph6i4a6ibg3asrt.apps.googleusercontent.com"),
+            clientSecret = ClientSecret("7Ubw0_-WDRxVVZE113LfQp8Z"),
             redirectUri = URI("http://localhost:8080/api/authentication/external/google/callback"),
             authorizationEndpoint = URI("https://accounts.google.com/o/oauth2/auth"),
             tokenEndpoint = URI("https://accounts.google.com/o/oauth2/token"))
@@ -46,8 +60,10 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
         val config = configLoader.loadConfig()
         var result: URI? = null
         if (config != null) {
+            LOG?.debug("Generating redirect URI for Nonce {} using Client ID {}",
+                    nonce, config.clientId)
             result = UriComponentsBuilder.fromUri(config.authorizationEndpoint)
-                    ?.queryParam("client_id", config.clientId)
+                    ?.queryParam("client_id", config.clientId.value)
                     ?.queryParam("response_type", "code")
                     ?.queryParam("scope", "openid email")
                     ?.queryParam("redirect_uri", config.redirectUri.toString())
