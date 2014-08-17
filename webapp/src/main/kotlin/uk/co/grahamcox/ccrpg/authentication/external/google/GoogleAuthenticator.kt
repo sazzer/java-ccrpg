@@ -6,20 +6,12 @@ import java.net.URI
 import org.springframework.web.util.UriComponentsBuilder
 import uk.co.grahamcox.ccrpg.authentication.external.UnsupportedProviderException
 import org.slf4j.LoggerFactory
+import org.springframework.web.client.RestTemplate
+import org.springframework.util.LinkedMultiValueMap
 
 /** The logger to use */
 val LOG = LoggerFactory.getLogger(javaClass<GoogleAuthenticator>())
 
-/**
- * Representation of a Client ID
- * @param value The Client ID
- */
-data class ClientId(val value: String)
-/**
- * Representation of a Client Secret
- * @param value The Client Secret
- */
-data class ClientSecret(val value: String)
 /**
  * The configuration for the Google Authenticator to work
  * @param clientId The Client ID to use
@@ -28,8 +20,8 @@ data class ClientSecret(val value: String)
  * @param authorizationEndpoint The Google Authorization Endpoint to use
  * @param tokenEndpoint The Google Authorization Endpoint to use
  */
-data class Config(val clientId: ClientId,
-             val clientSecret: ClientSecret,
+data class Config(val clientId: String,
+             val clientSecret: String,
              val redirectUri: URI,
              val authorizationEndpoint: URI,
              val tokenEndpoint: URI)
@@ -41,16 +33,36 @@ class ConfigLoader {
      * Load the configuration
      * @return the configuration
      */
-    fun loadConfig() : Config? = Config(clientId = ClientId("380974699378-8l31mu6eo16gbbhq3ph6i4a6ibg3asrt.apps.googleusercontent.com"),
-            clientSecret = ClientSecret("7Ubw0_-WDRxVVZE113LfQp8Z"),
+    fun loadConfig() : Config? = Config(clientId = "380974699378-8l31mu6eo16gbbhq3ph6i4a6ibg3asrt.apps.googleusercontent.com",
+            clientSecret = "7Ubw0_-WDRxVVZE113LfQp8Z",
             redirectUri = URI("http://localhost:8080/api/authentication/external/google/callback"),
             authorizationEndpoint = URI("https://accounts.google.com/o/oauth2/auth"),
             tokenEndpoint = URI("https://accounts.google.com/o/oauth2/token"))
 }
 /**
+ * Wrapper around the parameters that are received from Google
+ */
+data class CallbackParams(val params: Map<String, String>) {
+    /** The nonce that came back from the callback */
+    val nonce: Nonce?
+        get() {
+            val nonce = params.get("state")
+            return when (nonce) {
+                is String -> Nonce(nonce)
+                else -> null
+            }
+        }
+
+    /** The authorization code that came back from the callback */
+    val authorizationCode: String? = params.get("code")
+}
+/**
  * Authenticator for working with the Google+ Authentication API
+ * @param configLoader the mechanism to load the Google+ Authentication Config
  */
 class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
+    /** the mechanism by which to make HTTP calls */
+    var restTemplate: RestTemplate = RestTemplate()
     /** {@inheritDoc} */
     override fun isActive(): Boolean {
         return (configLoader.loadConfig() != null)
@@ -63,7 +75,7 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
             LOG?.debug("Generating redirect URI for Nonce {} using Client ID {}",
                     nonce, config.clientId)
             result = UriComponentsBuilder.fromUri(config.authorizationEndpoint)
-                    ?.queryParam("client_id", config.clientId.value)
+                    ?.queryParam("client_id", config.clientId)
                     ?.queryParam("response_type", "code")
                     ?.queryParam("scope", "openid email")
                     ?.queryParam("redirect_uri", config.redirectUri.toString())
@@ -79,6 +91,20 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
      * @param params The callback parameters
      */
     override fun handleCallback(nonce: Nonce, params: Map<String, String>) : Unit {
-        LOG?.debug("Handling callback for nonce {} with params {}", nonce, params)
+        val callbackParams = CallbackParams(params)
+        LOG?.debug("Handling callback for nonce {} with params {}", nonce, callbackParams)
+
+        val config = configLoader.loadConfig()
+        if (config != null) {
+            val tokenRequestParams = LinkedMultiValueMap<String, String?>()
+            tokenRequestParams.add("code", callbackParams.authorizationCode)
+            tokenRequestParams.add("client_id", config.clientId)
+            tokenRequestParams.add("client_secret", config.clientSecret)
+            tokenRequestParams.add("redirect_uri", config.redirectUri.toString())
+            tokenRequestParams.add("grant_type", "authorization_code")
+
+            val tokenResponse = restTemplate.postForObject(config.tokenEndpoint, tokenRequestParams, javaClass<String>())
+            LOG?.debug("Response from requesting the authorization token: {}", tokenResponse)
+        }
     }
 }
