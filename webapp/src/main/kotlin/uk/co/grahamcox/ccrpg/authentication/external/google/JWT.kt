@@ -26,6 +26,10 @@ data class JWT(jwt: String) {
         get() = headerSet.get("alg")?.toString()
     val issuer: String?
         get() = claimsSet.get("iss")?.toString()
+    val subject: String?
+        get() = claimsSet.get("sub")?.toString()
+    val audience: String?
+        get() = claimsSet.get("aud")?.toString()
     val expiration: Int?
         get() {
             val exp = claimsSet.get("exp")
@@ -61,4 +65,11 @@ data class JWT(jwt: String) {
         claimsSet = objectMapper.readValue(claims, javaClass<Map<String, Any>>()) ?:
                 throw IllegalStateException("Failed to parse the JWT Claims")
     }
+
+    /**
+     * Get the custom field with the given name
+     * @param name The name of the field
+     * @return the field value
+     */
+    fun field(name: String) = claimsSet.get(name)
 }
