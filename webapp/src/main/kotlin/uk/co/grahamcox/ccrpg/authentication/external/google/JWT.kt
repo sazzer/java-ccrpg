@@ -41,10 +41,10 @@ data class JWT(jwt: String) {
         }
 
     {
-        LOG?.debug("About to parse JWT {}", jwt)
+        LOG.debug("About to parse JWT {}", jwt)
         val splitJwt = jwt.split("\\.")
 
-        LOG?.debug("JWT Parts: Header {}, Claims {}, Signature {}", splitJwt[0], splitJwt[1], splitJwt[2])
+        LOG.debug("JWT Parts: Header {}, Claims {}, Signature {}", splitJwt[0], splitJwt[1], splitJwt[2])
 
         val decoder = Base64.getUrlDecoder()
         if (decoder == null) {
@@ -57,7 +57,7 @@ data class JWT(jwt: String) {
         val claims = String(
                 decoder.decode(splitJwt[1]) ?: throw IllegalStateException("Failed to decode the JWT Claims"),
                 Charset.forName("UTF-8"))
-        LOG?.debug("Decoded JWT header: {}, claims: {}", header, claims)
+        LOG.debug("Decoded JWT header: {}, claims: {}", header, claims)
 
         val objectMapper = ObjectMapper()
         headerSet = objectMapper.readValue(header, javaClass<Map<String, Any>>()) ?:

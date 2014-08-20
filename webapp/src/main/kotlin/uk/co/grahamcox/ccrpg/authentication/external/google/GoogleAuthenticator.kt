@@ -92,7 +92,7 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
         val config = configLoader.loadConfig()
         var result: URI? = null
         if (config != null) {
-            LOG?.debug("Generating redirect URI for Nonce {} using Client ID {}",
+            LOG.debug("Generating redirect URI for Nonce {} using Client ID {}",
                     nonce, config.clientId)
             result = UriComponentsBuilder.fromUri(config.authorizationEndpoint)
                     ?.queryParam("client_id", config.clientId)
@@ -112,7 +112,7 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
      */
     override fun handleCallback(nonce: Nonce, params: Map<String, String>) : Unit {
         val callbackParams = CallbackParams(params)
-        LOG?.debug("Handling callback for nonce {} with params {}", nonce, callbackParams)
+        LOG.debug("Handling callback for nonce {} with params {}", nonce, callbackParams)
 
         val config = configLoader.loadConfig()
         if (config != null) {
@@ -126,8 +126,8 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
             val tokenResponse = AccessTokenResponse(restTemplate.postForObject(config.tokenEndpoint,
                     tokenRequestParams,
                     javaClass<Map<String, String>>()) ?: throw IllegalArgumentException("No response returned"))
-            LOG?.debug("Response from requesting the authorization token: {}", tokenResponse)
-            LOG?.debug("JWT: {}", tokenResponse.jwt)
+            LOG.debug("Response from requesting the authorization token: {}", tokenResponse)
+            LOG.debug("JWT: {}", tokenResponse.jwt)
         }
     }
 }
