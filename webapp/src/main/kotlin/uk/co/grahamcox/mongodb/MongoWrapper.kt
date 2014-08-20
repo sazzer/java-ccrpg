@@ -10,7 +10,7 @@ import de.flapdoodle.embed.mongo.MongodProcess
 /**
  * Bean to start and stop the embedded MongoDB server
  */
-class MongoWrapper {
+class MongoWrapper(val port: Int) {
     /** The MongoDB process */
     var mongodProcess: MongodProcess? = null
 
@@ -21,7 +21,7 @@ class MongoWrapper {
         val starter = MongodStarter.getDefaultInstance()
         val config = MongodConfigBuilder()
             .version(Version.Main.PRODUCTION)
-            ?.net(Net(12345, Network.localhostIsIPv6()))
+            ?.net(Net(port, Network.localhostIsIPv6()))
             ?.build();
 
         val mongodExecutable = starter?.prepare(config)

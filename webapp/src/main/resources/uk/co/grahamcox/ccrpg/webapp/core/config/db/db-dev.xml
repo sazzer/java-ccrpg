@@ -3,7 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean class="uk.co.grahamcox.mongodb.MongoWrapper" init-method="start" destroy-method="stop" />
+    <bean id="mongoPortNumber" class="uk.co.grahamcox.mongodb.PortFinder" />
+
+    <bean class="uk.co.grahamcox.mongodb.MongoWrapper" init-method="start" destroy-method="stop">
+        <constructor-arg index="0" ref="mongoPortNumber" />
+    </bean>
 </beans>
 
 
