@@ -15,6 +15,11 @@
         <constructor-arg index="0" ref="clock" />
         <constructor-arg index="1" value="classpath:/build.info" />
     </bean>
+
+    <bean class="uk.co.grahamcox.ccrpg.webapp.authentication.ExternalAuthenticationController">
+        <constructor-arg index="0" ref="authenticationService" />
+        <constructor-arg index="1" ref="nonceGenerator" />
+    </bean>
 </beans>
 
 

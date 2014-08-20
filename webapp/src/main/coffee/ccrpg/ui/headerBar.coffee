@@ -1,4 +1,4 @@
-define(["ccrpg/ui/widget", "ccrpg/session/loggedInSignal"], (Widget, LoggedInSignal) ->
+define(["ccrpg/request", "ccrpg/ui/widget", "ccrpg/session/loggedInSignal"], (Request, Widget, LoggedInSignal) ->
   # The header bar of the application
   class HeaderBar extends Widget
 
@@ -27,10 +27,7 @@ define(["ccrpg/ui/widget", "ccrpg/session/loggedInSignal"], (Widget, LoggedInSig
                     <li><a href="#/logout" class="loggedIn">{{s 'logout'}}</a></li>
                     <li class="dropdown loggedOut">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{s 'login'}}<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#/login/external/facebook">Facebook</a></li>
-                            <li><a href="#/login/external/google">Google+</a></li>
-                            <li><a href="#/login/external/twitter">Twitter</a></li>
+                        <ul class="dropdown-menu login-menu" role="menu">
                         </ul>
                     </li>
                 </ul>
@@ -45,6 +42,18 @@ define(["ccrpg/ui/widget", "ccrpg/session/loggedInSignal"], (Widget, LoggedInSig
       LoggedInSignal.add (state) ->
         contentBox.toggleClass("loggedIn", state)
         contentBox.toggleClass("loggedOut", !state)
+
+      request = new Request({
+        url: "/api/authentication/external"
+      })
+      request.go().then((result) =>
+        console.log("Received the list of authentication providers to work with")
+        for service in result.data
+          serviceLabel = @getString("authentication.external.#{service}")
+          markup = """<li><a href="api/authentication/external/#{service}" target="_blank">#{serviceLabel}</a></li>"""
+          contentBox.find(".login-menu").append($(markup))
+      )
+
 
   return HeaderBar
 )

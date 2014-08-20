@@ -318,6 +318,11 @@
                     <artifactId>kotlin-maven-plugin</artifactId> 
                     <groupId>org.jetbrains.kotlin</groupId> 
                     <version>${kotlin-version}</version> 
+                    <configuration>
+                        <annotationPaths>
+                            <annotationPath>${project.basedir}/annotations/slf4j-api-1.7.7.jar</annotationPath>
+                        </annotationPaths>
+                    </configuration>
                     <executions> 
                         <execution> 
                             <id>compile</id> 
