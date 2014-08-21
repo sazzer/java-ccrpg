@@ -7,7 +7,7 @@
         <constructor-arg index="0" ref="mongoDb" />
         <constructor-arg index="1">
             <map>
-
+                <entry key="users" value="classpath:/uk/co/grahamcox/ccrpg/db/users.json" />
             </map>
         </constructor-arg>
     </bean>
