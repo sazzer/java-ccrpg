@@ -3,9 +3,16 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <beans profile="test,dev">
-        <import resource="db-dev.xml" />
-    </beans>
+    <import resource="db-dev.xml" />
+
+    <bean id="mongoClient" class="com.mongodb.MongoClient">
+        <constructor-arg index="0" ref="mongoHostName" />
+        <constructor-arg index="1" ref="mongoPortNumber" />
+    </bean>
+
+    <bean id="mongoDb" factory-bean="mongoClient" factory-method="getDB">
+        <constructor-arg index="0" ref="mongoDbName" />
+    </bean>
 </beans>
 
 

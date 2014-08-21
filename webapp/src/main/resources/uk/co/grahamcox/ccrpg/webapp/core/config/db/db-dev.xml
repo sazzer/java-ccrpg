@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       profile="test,dev">
 
     <bean id="mongoPortNumber" class="uk.co.grahamcox.mongodb.PortFinder" />
+
+    <bean id="mongoHostName" class="java.lang.String">
+        <constructor-arg index="0" value="localhost" />
+    </bean>
+
+    <bean id="mongoDbName" class="java.lang.String">
+        <constructor-arg index="0" value="ccrpg" />
+    </bean>
 
     <bean class="uk.co.grahamcox.mongodb.MongoWrapper" init-method="start" destroy-method="stop">
         <constructor-arg index="0" ref="mongoPortNumber" />
