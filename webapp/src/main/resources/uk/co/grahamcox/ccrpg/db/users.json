@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "name": "Graham Cox",
+        "email": "graham@grahamcox.co.uk",
+        "verified": true,
+        "accounts": []
+    }
+]
