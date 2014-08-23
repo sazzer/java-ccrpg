@@ -4,6 +4,10 @@ import org.junit.Before
 import org.junit.After
 import org.slf4j.LoggerFactory
 import java.net.ServerSocket
+import org.springframework.core.io.ClassPathResource
+import com.mongodb.DB
+import com.mongodb.MongoClient
+import kotlin.properties.Delegates
 
 /**
  * Base class for MongoDb tests that will start and populate a MongoDB database before the test and tear it down
@@ -21,6 +25,9 @@ open class MongoDbTestBase(val seedData: Map<String, String>? = null) {
     /** The actual mongo wrapper */
     private val mongo = MongoWrapper(mongoPort)
 
+    /** The DB connection */
+    protected var mongoDb: DB by Delegates.notNull()
+
     /**
      * Start the mongo server
      */
@@ -28,7 +35,11 @@ open class MongoDbTestBase(val seedData: Map<String, String>? = null) {
     fun startMongoDb() {
         LOG.info("Starting the database")
         mongo.start()
-
+        mongoDb = MongoClient("localhost", mongoPort).getDB("unittest")
+                ?: throw IllegalStateException("Failed to connect to the database")
+        if (seedData != null) {
+            populateDatabase(seedData)
+        }
     }
 
     /**
@@ -46,7 +57,9 @@ open class MongoDbTestBase(val seedData: Map<String, String>? = null) {
      * @param source the source
      */
     protected fun populateDatabase(collection: String, source: String) {
+        val resource = ClassPathResource(source)
 
+        MongoPopulator(mongoDb, mapOf(collection to resource)).populate()
     }
 
     /**
