@@ -19,13 +19,15 @@ class GoogleConfigMongoDao(mongoDb: DB) : BaseMongoDao(mongoDb, "externalAuthent
      */
     override fun loadConfig(): Config {
         val record = collection.findOne(BasicDBObject("provider", "google"))
-        if (record == null) {
-            throw NoRecordFoundException()
+        return when (record) {
+            is BasicDBObject -> Config(
+                        clientId = record.getString("clientId") ?: throw NoRecordFoundException(),
+                        clientSecret = record.getString("clientSecret") ?: throw NoRecordFoundException(),
+                        redirectUri = URI(record.getString("redirectUri") ?: throw NoRecordFoundException()),
+                        authorizationEndpoint = URI(record.getString("authorizationEndpoint") ?: throw NoRecordFoundException()),
+                        tokenEndpoint = URI(record.getString("tokenEndpoint") ?: throw NoRecordFoundException())
+                )
+            else -> throw NoRecordFoundException()
         }
-        return Config(clientId = "380974699378-8l31mu6eo16gbbhq3ph6i4a6ibg3asrt.apps.googleusercontent.com",
-                clientSecret = "7Ubw0_-WDRxVVZE113LfQp8Z",
-                redirectUri = URI("http://localhost:8080/api/authentication/external/google/callback"),
-                authorizationEndpoint = URI("https://accounts.google.com/o/oauth2/auth"),
-                tokenEndpoint = URI("https://accounts.google.com/o/oauth2/token"))
     }
 }
