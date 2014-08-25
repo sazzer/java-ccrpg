@@ -8,6 +8,7 @@ import org.junit.Test
 import uk.co.grahamcox.ccrpg.dao.NoRecordFoundException
 import org.junit.Assert
 import java.net.URI
+import uk.co.grahamcox.ccrpg.dao.BadlyFormedRecordException
 
 /**
  * Unit tests for the Google Config Mongo DAO
@@ -34,7 +35,7 @@ class GoogleConfigMongoDaoTest : MongoDbTestBase() {
     /**
      * Test loading badly formed config
      */
-    [Test(expected = javaClass<NoRecordFoundException>())]
+    [Test(expected = javaClass<BadlyFormedRecordException>())]
     fun testLoadBadConfig() {
         populateDatabase("externalAuthenticationConfig",
                 "/uk/co/grahamcox/ccrpg/authentication/external/google/mongo/invalidAuthentication.json")

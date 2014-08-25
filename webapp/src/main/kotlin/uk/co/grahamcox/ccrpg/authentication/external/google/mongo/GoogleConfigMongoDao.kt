@@ -7,6 +7,7 @@ import uk.co.grahamcox.ccrpg.dao.NoRecordFoundException
 import uk.co.grahamcox.ccrpg.authentication.external.google.GoogleConfigDao
 import com.mongodb.BasicDBObject
 import java.net.URI
+import uk.co.grahamcox.ccrpg.dao.BadlyFormedRecordException
 
 /**
  * Implementation of the Google Config DAO that works in terms of the MongoDB store
@@ -21,11 +22,11 @@ class GoogleConfigMongoDao(mongoDb: DB) : BaseMongoDao(mongoDb, "externalAuthent
         val record = collection.findOne(BasicDBObject("provider", "google"))
         return when (record) {
             is BasicDBObject -> Config(
-                        clientId = record.getString("clientId") ?: throw NoRecordFoundException(),
-                        clientSecret = record.getString("clientSecret") ?: throw NoRecordFoundException(),
-                        redirectUri = URI(record.getString("redirectUri") ?: throw NoRecordFoundException()),
-                        authorizationEndpoint = URI(record.getString("authorizationEndpoint") ?: throw NoRecordFoundException()),
-                        tokenEndpoint = URI(record.getString("tokenEndpoint") ?: throw NoRecordFoundException())
+                        clientId = record.getString("clientId") ?: throw BadlyFormedRecordException("Missing field: clientId"),
+                        clientSecret = record.getString("clientSecret") ?: throw BadlyFormedRecordException("Missing field: clientSecret"),
+                        redirectUri = URI(record.getString("redirectUri") ?: throw BadlyFormedRecordException("Missing field: redirectUri")),
+                        authorizationEndpoint = URI(record.getString("authorizationEndpoint") ?: throw BadlyFormedRecordException("Missing field: authorizationEndpoint")),
+                        tokenEndpoint = URI(record.getString("tokenEndpoint") ?: throw BadlyFormedRecordException("Missing field: tokenEndpoint"))
                 )
             else -> throw NoRecordFoundException()
         }
