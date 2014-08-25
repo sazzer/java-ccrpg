@@ -5,7 +5,7 @@ import java.net.URI
 /**
  * Loader to load the configuration for the Google Authorization endpoint
  */
-class ConfigLoader {
+class ConfigLoader(private val dao: GoogleConfigDao) {
     /**
      * Load the configuration
      * @return the configuration

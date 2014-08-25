@@ -11,7 +11,13 @@
                 <entry key="google">
                     <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.GoogleAuthenticator">
                         <constructor-arg index="0">
-                            <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.ConfigLoader" />
+                            <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.ConfigLoader">
+                                <constructor-arg index="0">
+                                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.mongo.GoogleConfigMongoDao">
+                                        <constructor-arg index="0" ref="mongoDb" />
+                                    </bean>
+                                </constructor-arg>
+                            </bean>
                         </constructor-arg>
                     </bean>
                 </entry>
