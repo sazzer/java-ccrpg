@@ -8,6 +8,7 @@
         <constructor-arg index="1">
             <map>
                 <entry key="users" value="classpath:/uk/co/grahamcox/ccrpg/db/users.json" />
+                <entry key="externalAuthenticationConfig" value="classpath:/uk/co/grahamcox/ccrpg/db/authentication.json" />
             </map>
         </constructor-arg>
     </bean>

@@ -1,0 +1,12 @@
+[
+    {
+        "provider": "google",
+        "clientId": "380974699378-8l31mu6eo16gbbhq3ph6i4a6ibg3asrt.apps.googleusercontent.com",
+        "clientSecret": "7Ubw0_-WDRxVVZE113LfQp8Z",
+        "redirectUri": "http://localhost:8080/api/authentication/external/google/callback",
+        "endpoints": {
+            "authorization": "https://accounts.google.com/o/oauth2/auth",
+            "token": "https://accounts.google.com/o/oauth2/token"
+        }
+    }
+]
