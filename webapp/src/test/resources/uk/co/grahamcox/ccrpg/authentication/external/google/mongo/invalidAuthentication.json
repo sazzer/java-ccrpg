@@ -1,0 +1,9 @@
+[
+    {
+        "provider": "google",
+        "clientSecret": "TestClientSecret",
+        "redirectUri": "http://localhost:8080/api/authentication/external/google/callback",
+        "authorizationEndpoint": "https://accounts.google.com/o/oauth2/auth",
+        "tokenEndpoint": "https://accounts.google.com/o/oauth2/token"
+    }
+]

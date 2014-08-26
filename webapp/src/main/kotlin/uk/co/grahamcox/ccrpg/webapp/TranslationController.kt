@@ -36,10 +36,9 @@ class TranslationController(private val messageSource: ExposedMessageSource) {
                 var current = a.get(b)
 
                 if (current != null) {
-                    if (current is HashMap<*, *>) {
-                        next = current as HashMap<String, Any>
-                    } else {
-                        throw IllegalStateException("Message prefix exists as a message key: ${it}")
+                    when (current) {
+                        is HashMap<*, *> -> next = current as HashMap<String, Any>
+                        else -> throw IllegalStateException("Message prefix exists as a message key: ${it}")
                     }
                 } else {
                     a.put(b, next)

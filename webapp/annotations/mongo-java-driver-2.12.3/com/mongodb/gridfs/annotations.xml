@@ -1,0 +1,89 @@
+<root>
+    <item name='com.mongodb.gridfs.CLI void main(java.lang.String[]) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS DEFAULT_BUCKET'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.gridfs.GridFSInputFile createFile()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.gridfs.GridFSInputFile createFile(java.io.File) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.gridfs.GridFSInputFile createFile(java.io.File)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.gridfs.GridFSInputFile createFile(java.io.InputStream)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.gridfs.GridFSInputFile createFile(java.io.InputStream, java.lang.String)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.gridfs.GridFSInputFile createFile(java.io.InputStream, java.lang.String, boolean)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.gridfs.GridFSInputFile createFile(java.io.InputStream, boolean)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.gridfs.GridFSInputFile createFile(java.lang.String)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.gridfs.GridFSInputFile createFile(byte[])'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS java.util.List&lt;com.mongodb.gridfs.GridFSDBFile&gt; find(com.mongodb.DBObject)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS java.util.List&lt;com.mongodb.gridfs.GridFSDBFile&gt; find(com.mongodb.DBObject, com.mongodb.DBObject)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS java.util.List&lt;com.mongodb.gridfs.GridFSDBFile&gt; find(java.lang.String)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS java.util.List&lt;com.mongodb.gridfs.GridFSDBFile&gt; find(java.lang.String, com.mongodb.DBObject)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.DBCursor getFileList()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.DBCursor getFileList(com.mongodb.DBObject)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS com.mongodb.DBCursor getFileList(com.mongodb.DBObject, com.mongodb.DBObject)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS void remove(com.mongodb.DBObject) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS void remove(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFS void remove(org.bson.types.ObjectId) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFSDBFile java.io.InputStream getInputStream()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFSFile java.lang.Object get(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFSFile java.util.Set&lt;java.lang.String&gt; keySet()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFSFile java.lang.Object put(java.lang.String, java.lang.Object) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='com.mongodb.gridfs.GridFSFile void putAll(java.util.Map) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='com.mongodb.gridfs.GridFSFile void putAll(org.bson.BSONObject) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+</root>

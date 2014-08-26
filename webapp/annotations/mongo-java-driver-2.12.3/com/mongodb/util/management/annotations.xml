@@ -1,0 +1,5 @@
+<root>
+    <item name='com.mongodb.util.management.MBeanServerFactory com.mongodb.util.management.MBeanServer getMBeanServer()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+</root>

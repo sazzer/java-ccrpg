@@ -22,6 +22,7 @@ trait Authenticator {
      * Handle the callback from authenticating a user
      * @param nonce The nonce for the request
      * @param params The callback parameters
+     * @return the details of the authenticated user
      */
-    fun handleCallback(nonce: Nonce, params: Map<String, String>) : Unit
+    fun handleCallback(nonce: Nonce, params: Map<String, String>) : AuthenticatedUser
 }

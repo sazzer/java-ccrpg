@@ -1,4 +1,5 @@
-define(["ccrpg/request", "ccrpg/ui/widget", "ccrpg/session/loggedInSignal"], (Request, Widget, LoggedInSignal) ->
+define(["ccrpg/request", "ccrpg/ui/widget", "ccrpg/session/loggedInSignal", "ccrpg/session/authenticationCallbackSignal"],
+(Request, Widget, LoggedInSignal, AuthenticationCallbackSignal) ->
   # The header bar of the application
   class HeaderBar extends Widget
 
@@ -39,9 +40,18 @@ define(["ccrpg/request", "ccrpg/ui/widget", "ccrpg/session/loggedInSignal"], (Re
     # Perform any widget specific rendering of the UI
     renderUi: () ->
       contentBox = @contentBox
+      loginMenu = contentBox.find(".login-menu")
+
       LoggedInSignal.add (state) ->
         contentBox.toggleClass("loggedIn", state)
         contentBox.toggleClass("loggedOut", !state)
+
+      loginMenu.on("click", "li a", () ->
+        console.log("Starting a Login process")
+        AuthenticationCallbackSignal.addOnce((data) ->
+          console.log("Logged in from #{data.provider} with ID #{data.id}. New user: #{data.newUser}")
+        )
+      )
 
       request = new Request({
         url: "/api/authentication/external"
@@ -51,7 +61,7 @@ define(["ccrpg/request", "ccrpg/ui/widget", "ccrpg/session/loggedInSignal"], (Re
         for service in result.data
           serviceLabel = @getString("authentication.external.#{service}")
           markup = """<li><a href="api/authentication/external/#{service}" target="_blank">#{serviceLabel}</a></li>"""
-          contentBox.find(".login-menu").append($(markup))
+          loginMenu.append($(markup))
       )
 
 

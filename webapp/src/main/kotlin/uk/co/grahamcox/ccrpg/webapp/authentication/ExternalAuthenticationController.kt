@@ -12,6 +12,7 @@ import uk.co.grahamcox.ccrpg.authentication.external.UnsupportedProviderExceptio
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.http.HttpStatus
 import org.springframework.web.context.request.WebRequest
+import org.springframework.web.servlet.ModelAndView
 
 /**
  * Controller to provide access to external authentication services
@@ -30,7 +31,7 @@ class ExternalAuthenticationController(val authenticationService: Authentication
     [ExceptionHandler(javaClass<UnsupportedProviderException>())]
     [ResponseStatus(HttpStatus.NOT_FOUND)]
     [ResponseBody]
-    fun unsupportedProvider(e: UnsupportedProviderException) = "Unsupported authentication service: ${e.name}"
+    fun unsupportedProvider(e: UnsupportedProviderException) = "Unsupported authentication service"
 
     /**
      * Get the list of authentication providers that are supported
@@ -58,9 +59,10 @@ class ExternalAuthenticationController(val authenticationService: Authentication
      * Handle the callback from an external authentication provider
      * @param provider The name of the provider
      * @param webRequest The request to get the params from
+     * @return the model and view for the authenticated callback page
      */
     [RequestMapping(array("/{provider}/callback"))]
-    fun callback([PathVariable("provider")]provider: String, webRequest: WebRequest): String {
+    fun callback([PathVariable("provider")]provider: String, webRequest: WebRequest): ModelAndView {
         val nonce = nonceGenerator.generate()
         val params = hashMapOf<String, String>()
         for (param: String in webRequest.getParameterNames()) {
@@ -69,8 +71,12 @@ class ExternalAuthenticationController(val authenticationService: Authentication
                 params.put(param, paramValue)
             }
         }
-        authenticationService.handleCallback(provider, nonce, params)
-        return "Oops"
+        val user = authenticationService.handleCallback(provider, nonce, params)
+
+        val result = ModelAndView("/authcallback")
+        result.addObject("user", user)
+        result.addObject("newUser", true)
+        return result
     }
 
 }
