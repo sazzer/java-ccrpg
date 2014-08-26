@@ -4,6 +4,14 @@
 <html lang="en" dir="ltr">
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <script type="text/javascript">
+        opener.authenticationCallback({
+            provider: "${user.source}",
+            id: "${user.id}",
+            newUser: ${newUser}
+        });
+        window.close();
+    </script>
 </head>
 <body role="document">
     Authentication successful.
