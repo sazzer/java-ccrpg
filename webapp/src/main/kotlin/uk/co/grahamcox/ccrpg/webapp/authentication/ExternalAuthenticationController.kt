@@ -75,6 +75,7 @@ class ExternalAuthenticationController(val authenticationService: Authentication
 
         val result = ModelAndView("/authcallback")
         result.addObject("user", user)
+        result.addObject("newUser", true)
         return result
     }
 

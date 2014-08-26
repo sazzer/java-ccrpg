@@ -10,6 +10,7 @@
     <ul>
         <li>Source: ${user.source}</li>
         <li>User ID: ${user.id}</li>
+        <li>New User: ${newUser}</li>
     </ul>
 </body>
 </html>
