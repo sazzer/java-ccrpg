@@ -3,12 +3,6 @@ package uk.co.grahamcox.ccrpg.authentication.external
 import java.net.URI
 
 /**
- * Exception to throw when an authentication provider is requested that is not supported
- * @param name The name of the provider
- */
-class UnsupportedProviderException(val name: String) : Exception()
-
-/**
  * Service to provide access to external authentication providers
  */
 class AuthenticationService(val services: Map<String, Authenticator>) {
@@ -27,7 +21,7 @@ class AuthenticationService(val services: Map<String, Authenticator>) {
      */
     fun getRedirectUri(name: String, nonce: Nonce) : URI =
             services.get(name)?.getRedirectUri(nonce)
-                    ?: throw UnsupportedProviderException(name)
+                    ?: throw UnsupportedProviderException()
 
     /**
      * Get the list of all services that are currently active
@@ -39,9 +33,9 @@ class AuthenticationService(val services: Map<String, Authenticator>) {
      * @param name The name of the service
      * @param nonce The nonce for the request
      * @param params The callback parameters
+     * @return the details of the authenticated user
      */
-    fun handleCallback(name: String, nonce: Nonce, params: Map<String, String>) : Unit {
+    fun handleCallback(name: String, nonce: Nonce, params: Map<String, String>) : AuthenticatedUser =
         services.get(name)?.handleCallback(nonce, params)
-                ?: throw UnsupportedProviderException(name)
-    }
+                ?: throw UnsupportedProviderException()
 }

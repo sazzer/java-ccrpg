@@ -6,6 +6,10 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 </head>
 <body role="document">
-</body>
     Authentication successful.
+    <ul>
+        <li>Source: ${user.source}</li>
+        <li>User ID: ${user.id}</li>
+    </ul>
+</body>
 </html>
