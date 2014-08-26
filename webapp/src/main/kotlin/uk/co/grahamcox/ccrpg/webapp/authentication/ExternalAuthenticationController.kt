@@ -70,7 +70,7 @@ class ExternalAuthenticationController(val authenticationService: Authentication
             }
         }
         authenticationService.handleCallback(provider, nonce, params)
-        return "Oops"
+        return "/authcallback"
     }
 
 }
