@@ -1,5 +1,10 @@
-define(["ccrpg/ui/widget", "ccrpg/ui/cardPanel", "ccrpg/ui/main/headerBar", "ccrpg/ui/main/landingScreen"],
-(Widget, CardPanel, HeaderBar, LandingScreen) ->
+define(["ccrpg/ui/widget",
+    "ccrpg/ui/cardPanel",
+    "ccrpg/ui/main/headerBar",
+    "ccrpg/ui/main/landingScreen",
+    "ccrpg/ui/user/newUserScreen",
+    "crossroads"],
+(Widget, CardPanel, HeaderBar, LandingScreen, NewUserScreen, crossroads) ->
   # The main page of the application
   class MainPage extends Widget
 
@@ -14,7 +19,10 @@ define(["ccrpg/ui/widget", "ccrpg/ui/cardPanel", "ccrpg/ui/main/headerBar", "ccr
       }).render()
 
       @mainCardPanel.addPanel("landingScreen", new LandingScreen())
-      @mainCardPanel.addPanel("landingScreen2", new LandingScreen())
+      @mainCardPanel.addPanel("newUserScreen", new NewUserScreen())
       @mainCardPanel.showPanel("landingScreen")
+      
+      crossroads.addRoute '/', () => @mainCardPanel.showPanel("landingScreen")
+
   return MainPage
 )

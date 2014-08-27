@@ -9,6 +9,7 @@ define(["ccrpg/ui/containerPanel"], (ContainerPanel) ->
           console.log("Panel #{name} visibility changed to #{newVal}")
           if (newVal)
             @_hideAllBut(name)
+        panel.hide()
 
     # Show the panel that has the given name
     # @param name The name of the panel to show
