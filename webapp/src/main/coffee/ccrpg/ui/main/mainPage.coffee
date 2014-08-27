@@ -1,4 +1,5 @@
-define(["ccrpg/ui/widget", "ccrpg/ui/headerBar", "ccrpg/ui/cardPanel", "ccrpg/ui/landingScreen"], (Widget, HeaderBar, CardPanel, LandingScreen) ->
+define(["ccrpg/ui/widget", "ccrpg/ui/cardPanel", "ccrpg/ui/main/headerBar", "ccrpg/ui/main/landingScreen"],
+(Widget, CardPanel, HeaderBar, LandingScreen) ->
   # The main page of the application
   class MainPage extends Widget
 
