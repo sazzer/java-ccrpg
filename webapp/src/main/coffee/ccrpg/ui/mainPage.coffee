@@ -13,5 +13,7 @@ define(["ccrpg/ui/widget", "ccrpg/ui/headerBar", "ccrpg/ui/cardPanel", "ccrpg/ui
       }).render()
 
       @mainCardPanel.addPanel("landingScreen", new LandingScreen())
+      @mainCardPanel.addPanel("landingScreen2", new LandingScreen())
+      @mainCardPanel.showPanel("landingScreen")
   return MainPage
 )

@@ -5,6 +5,10 @@ define([], () ->
     # @param config The configuration to store
     constructor: (config) ->
       @_config = config || {}
+      @init()
+
+    # Initialize the object
+    init: () ->
 
     # Get the data with the given key
     # @param key The key of the data
