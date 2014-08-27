@@ -9,7 +9,7 @@ define(["ccrpg/request", "ccrpg/ui/widget", "ccrpg/session/loggedInSignal", "ccr
     # The actual markup to render
     @markup = """
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
+        <div class="container-reactive">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
                     <span class="sr-only">{{s 'toggleNavigation'}}</span>

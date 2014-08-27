@@ -2,8 +2,9 @@ define([], () ->
   # Base for all objects
   class Base
     # Construct the object, storing the initial data
-    # @param _config The configuration to store
-    constructor: (@_config) ->
+    # @param config The configuration to store
+    constructor: (config) ->
+      @_config = config || {}
 
     # Get the data with the given key
     # @param key The key of the data
