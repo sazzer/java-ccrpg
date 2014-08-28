@@ -134,6 +134,20 @@
                             <allowDelete>true</allowDelete>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>test-coffeescript</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <srcDir>${basedir}/src/test/coffee</srcDir>
+                            <outputDir>${project.build.directory}/testjs</outputDir>
+                            <bare>false</bare>
+                            <modifiedOnly>false</modifiedOnly>
+                            <allowDelete>true</allowDelete>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -200,7 +214,7 @@
                             <outputDirectory>${project.basedir}/target/jasmine</outputDirectory>
                             <resources>          
                                 <resource>
-                                    <directory>${project.basedir}/src/test/javascript</directory>
+                                    <directory>${project.basedir}/src/test/coffee</directory>
                                     <filtering>true</filtering>
                                     <includes>
                                         <include>config</include>
@@ -245,7 +259,7 @@
                                 <source>${project.basedir}/src/main/webapp/resources/js/require.js</source>
                             </preloadSources>
                             <customRunnerConfiguration>${project.basedir}/target/jasmine/config</customRunnerConfiguration>
-                            <jsTestSrcDir>${project.basedir}/src/test/javascript</jsTestSrcDir>
+                            <jsTestSrcDir>${project.build.directory}/testjs</jsTestSrcDir>
                         </configuration>
                     </execution>
                 </executions>
