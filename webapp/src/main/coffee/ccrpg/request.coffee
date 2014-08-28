@@ -6,6 +6,12 @@ define(["bluebird", "ccrpg/base"], (Promise, Base) ->
   # @param config.data The data to provide to the method
   # @param config.expects The datatype to expect on return. Defaults to "json"
   class Request extends Base
+    @attrs = {
+        "url": {},
+        "data": {},
+        "expects": {defaultValue: "json"},
+        "method": {defaultValue: "GET"}
+    }
     # Actually make the request
     # @return A promise that exposes the success or failure of the request
     go: () ->

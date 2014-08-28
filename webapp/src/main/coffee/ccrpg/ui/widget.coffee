@@ -7,6 +7,11 @@ define(["ccrpg/base", "handlebars", "i18next"], (Base, Handlebars, i18next) ->
     # The actual markup to render
     @markup = ""
 
+    # The attributes common to a widget
+    @attrs = {
+        "container": {}
+    }
+
     # Render the widget
     render: () ->
       container = @get("container")
