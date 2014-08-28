@@ -4,8 +4,9 @@ define(["ccrpg/ui/widget",
     "ccrpg/ui/main/landingScreen",
     "ccrpg/ui/main/helpScreen",
     "ccrpg/ui/user/newUserScreen",
+    "ccrpg/session/newUserSignal",
     "crossroads"],
-(Widget, CardPanel, HeaderBar, LandingScreen, HelpScreen, NewUserScreen, crossroads) ->
+(Widget, CardPanel, HeaderBar, LandingScreen, HelpScreen, NewUserScreen, newUserSignal, crossroads) ->
   # The main page of the application
   class MainPage extends Widget
 
@@ -26,6 +27,10 @@ define(["ccrpg/ui/widget",
 
       crossroads.addRoute '/', () => @mainCardPanel.showPanel("landingScreen")
       crossroads.addRoute '/help', () => @mainCardPanel.showPanel("helpScreen")
+      newUserSignal.add (data) =>
+        @mainCardPanel.getPanel("newUserScreen").set("userId", data.id)
+        @mainCardPanel.getPanel("newUserScreen").set("provider", data.provider)
+        @mainCardPanel.showPanel("newUserScreen")
 
   return MainPage
 )

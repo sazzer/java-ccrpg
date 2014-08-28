@@ -1,5 +1,9 @@
-define(["ccrpg/request", "ccrpg/ui/widget", "ccrpg/session/loggedInSignal", "ccrpg/session/authenticationCallbackSignal"],
-(Request, Widget, LoggedInSignal, AuthenticationCallbackSignal) ->
+define(["ccrpg/request",
+        "ccrpg/ui/widget",
+        "ccrpg/session/loggedInSignal",
+        "ccrpg/session/newUserSignal",
+        "ccrpg/session/authenticationCallbackSignal"],
+(Request, Widget, LoggedInSignal, NewUserSignal, AuthenticationCallbackSignal) ->
   # The header bar of the application
   class HeaderBar extends Widget
 
@@ -50,6 +54,8 @@ define(["ccrpg/request", "ccrpg/ui/widget", "ccrpg/session/loggedInSignal", "ccr
         console.log("Starting a Login process")
         AuthenticationCallbackSignal.addOnce((data) ->
           console.log("Logged in from #{data.provider} with ID #{data.id}. New user: #{data.newUser}")
+          if (data.newUser)
+            NewUserSignal.dispatch(data)
         )
       )
 
