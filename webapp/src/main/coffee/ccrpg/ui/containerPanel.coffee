@@ -1,16 +1,16 @@
-define(["signals", "ccrpg/ui/panel"], (signals, Panel) ->
+define(["ccrpg/ui/panel"], (Panel) ->
   # A ContainerPanel is a Panel that contains a number of other panels
   class ContainerPanel extends Panel
     # The outermost element in which the widget is rendered
     @wrapperNode = """<div class="container-reactive"/>"""
 
+    # The signals that this class can raise
+    @signals = ["panelAdded"]
+
     init: () ->
       super
       # The collection of child panels
       @_childPanels = {}
-
-      # Signal for when a panel is added
-      @panelAddedSignal = new signals.Signal()
 
     # Add a new child panel to the container
     # This assumes that the child panel has not already been rendered somewhere, and will render it as a child of this
@@ -22,7 +22,7 @@ define(["signals", "ccrpg/ui/panel"], (signals, Panel) ->
       panel.set("container", @contentBox)
       panel.render()
       panel.contentBox.addClass(name)
-      @panelAddedSignal.dispatch(name, panel)
+      @signal("panelAdded").dispatch(name, panel)
 
     # Get the child panel that has the given name
     # @param name the name of the child panel to get

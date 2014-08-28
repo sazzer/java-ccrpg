@@ -1,22 +1,21 @@
-define(["signals", "ccrpg/ui/widget"], (signals, Widget) ->
+define(["ccrpg/ui/widget"], (Widget) ->
   # A Panel is an extension of a Widget that has some extra logic for controlling large areas of the screen
   class Panel extends Widget
 
-    init: () ->
-      # Signal to trigger when the panel is shown or hidden
-      @visibleChangedSignal = new signals.Signal()
+    # The signals that this class can raise
+    @signals = ["visibleChanged"]
 
     # Show the panel
     show: () ->
       wasVisible = @isVisible()
       @contentBox.show()
-      @visibleChangedSignal.dispatch(true, wasVisible)
+      @signal("visibleChanged").dispatch(true, wasVisible)
 
     # Hide the panel
     hide: () ->
       wasVisible = @isVisible()
       @contentBox.hide()
-      @visibleChangedSignal.dispatch(false, wasVisible)
+      @signal("visibleChanged").dispatch(false, wasVisible)
 
     # Set the visibility based on the provided value
     # @param visible True to make the panel visible. False to hide it

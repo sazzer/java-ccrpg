@@ -4,8 +4,8 @@ define(["ccrpg/ui/containerPanel"], (ContainerPanel) ->
     # Add a listener to the panel added signal so that we can then register listeners for the visibility of all the panels
     init: () ->
       super
-      @panelAddedSignal.add (name, panel) =>
-        panel.visibleChangedSignal.add (newVal) =>
+      @signal("panelAdded").add (name, panel) =>
+        panel.signal("visibleChanged").add (newVal) =>
           console.log("Panel #{name} visibility changed to #{newVal}")
           if (newVal)
             @_hideAllBut(name)
