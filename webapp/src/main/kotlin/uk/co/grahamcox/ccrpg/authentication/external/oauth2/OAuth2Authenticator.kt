@@ -9,18 +9,24 @@ import java.net.URI
 import org.springframework.web.util.UriComponentsBuilder
 import uk.co.grahamcox.ccrpg.authentication.external.AuthenticatedUser
 import org.springframework.util.LinkedMultiValueMap
+import uk.co.grahamcox.ccrpg.TextPlainToMapHttpMessageConverter
 
 /**
  * Authenticator for working with OAuth2 Authentication APIs
  * @param configLoader the mechanism to load the OAuth2 Config
  */
-abstract class OAuth2Authenticator(val configLoader: ConfigLoader) : Authenticator {
+abstract class OAuth2Authenticator(private val configLoader: ConfigLoader, private val scopes: String) : Authenticator {
     class object {
         /** The logger to use */
         val LOG = LoggerFactory.getLogger(javaClass<OAuth2Authenticator>())
     }
     /** the mechanism by which to make HTTP calls */
-    var restTemplate: RestTemplate = RestTemplate()
+    var restTemplate: RestTemplate = RestTemplate();
+
+    {
+        restTemplate.getMessageConverters()?.add(TextPlainToMapHttpMessageConverter())
+    }
+
     /** {@inheritDoc} */
     override fun isActive(): Boolean {
         return try {
@@ -45,7 +51,7 @@ abstract class OAuth2Authenticator(val configLoader: ConfigLoader) : Authenticat
         val result = UriComponentsBuilder.fromUri(config.authorizationEndpoint)
                 ?.queryParam("client_id", config.clientId)
                 ?.queryParam("response_type", "code")
-                ?.queryParam("scope", "openid email")
+                ?.queryParam("scope", scopes)
                 ?.queryParam("redirect_uri", config.redirectUri.toString())
                 ?.queryParam("state", nonce.value)
                 ?.build()

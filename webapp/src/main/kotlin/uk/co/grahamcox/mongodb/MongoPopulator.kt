@@ -27,7 +27,7 @@ class MongoPopulator(val db: DB, val sources: Map<String, Resource>) {
             val data = loadData(source)
             for (record in data) {
                 LOG.debug("Adding record {} to collection {}", data, collection)
-                collection.insert(data)
+                collection.insert(record)
             }
         }
     }
@@ -40,9 +40,14 @@ class MongoPopulator(val db: DB, val sources: Map<String, Resource>) {
         val objectMapper = ObjectMapper()
         val values = objectMapper.readValue(
                 source.getInputStream() ?: throw FileNotFoundException("File not found: ${source}"),
-                javaClass<List<Map<String, Any>>>())
+                javaClass<List<MutableMap<String, Any>>>())
                 ?: throw IllegalStateException("Failed to load data from: ${source}")
 
-        return values.map { value -> BasicDBObject(value) }
+        return values.map {value ->
+            if (!value.containsKey("_id")) {
+                value.put("_id", ObjectId())
+            }
+            value
+        }.map { value -> BasicDBObject(value) }
     }
 }

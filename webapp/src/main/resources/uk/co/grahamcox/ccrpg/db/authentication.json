@@ -6,5 +6,12 @@
         "redirectUri": "http://localhost:8080/api/authentication/external/google/callback",
         "authorizationEndpoint": "https://accounts.google.com/o/oauth2/auth",
         "tokenEndpoint": "https://accounts.google.com/o/oauth2/token"
+    }, {
+        "provider": "facebook",
+        "clientId": "277566249099601",
+        "clientSecret": "81092128beba6aa428b7a76560f38673",
+        "redirectUri": "http://localhost:8080/api/authentication/external/facebook/callback",
+        "authorizationEndpoint": "https://www.facebook.com/dialog/oauth",
+        "tokenEndpoint": "https://graph.facebook.com/oauth/access_token"
     }
 ]

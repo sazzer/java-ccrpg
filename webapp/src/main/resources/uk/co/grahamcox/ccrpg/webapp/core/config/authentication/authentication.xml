@@ -22,6 +22,20 @@
                         </constructor-arg>
                     </bean>
                 </entry>
+                <entry key="facebook">
+                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.FacebookAuthenticator">
+                        <constructor-arg index="0">
+                            <bean class="uk.co.grahamcox.ccrpg.authentication.external.oauth2.ConfigLoader">
+                                <constructor-arg index="0">
+                                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.oauth2.mongo.OAuth2ConfigMongoDao">
+                                        <constructor-arg index="0" ref="mongoDb" />
+                                    </bean>
+                                </constructor-arg>
+                                <constructor-arg index="1" value="facebook" />
+                            </bean>
+                        </constructor-arg>
+                    </bean>
+                </entry>
             </map>
         </constructor-arg>
     </bean>
