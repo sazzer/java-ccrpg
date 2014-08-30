@@ -13,6 +13,7 @@ import uk.co.grahamcox.ccrpg.authentication.external.oauth2.AccessTokenResponse
 import uk.co.grahamcox.ccrpg.authentication.external.oauth2.CallbackParams
 import uk.co.grahamcox.ccrpg.authentication.external.oauth2.ConfigLoader
 import uk.co.grahamcox.ccrpg.authentication.external.oauth2.Config
+import uk.co.grahamcox.ccrpg.authentication.external.jwt.JWT
 
 /**
  * Authenticator for working with the Google+ Authentication API
@@ -76,10 +77,17 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
         val tokenResponse = AccessTokenResponse(restTemplate.postForObject(config.tokenEndpoint,
                 tokenRequestParams,
                 javaClass<Map<String, String>>()) ?: throw IllegalArgumentException("No response returned"))
-        LOG.debug("Response from requesting the authorization token: {}", tokenResponse)
-        LOG.debug("JWT: {}", tokenResponse.jwt)
 
-        return AuthenticatedUser(source = "google", id = tokenResponse.jwt?.subject
+        val idToken = tokenResponse.getParam("id_token")
+        val jwt = if (idToken != null) {
+            JWT(idToken)
+        } else {
+            null
+        }
+        LOG.debug("Response from requesting the authorization token: {}", tokenResponse)
+        LOG.debug("JWT: {}", jwt)
+
+        return AuthenticatedUser(source = "google", id = jwt?.subject
                 ?: throw IllegalStateException("No User ID was returned"))
     }
 }
