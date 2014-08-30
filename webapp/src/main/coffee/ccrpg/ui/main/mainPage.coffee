@@ -31,7 +31,7 @@ define(["ccrpg/ui/widget",
       newUserSignal.add (data) =>
 #        @mainCardPanel.getPanel("newUserScreen").set("userId", data.id)
 #        @mainCardPanel.getPanel("newUserScreen").set("provider", data.provider)
-        @mainCardPanel.showPanel("newUserScreen")
+        @newUserDialog.show()
 
   return MainPage
 )

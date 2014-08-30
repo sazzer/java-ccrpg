@@ -16,20 +16,25 @@ define(["ccrpg/base", "handlebars", "i18next"], (Base, Handlebars, i18next) ->
     render: () ->
       container = @get("container")
 
-      @contentBox = $(@constructor.wrapperNode)
-      @contentBox.addClass(@constructor.name + "Widget")
+      Handlebars.default.registerHelper("s", (string) =>
+        return @getString(string)
+      )
+
+      processedWrapper = Handlebars.default.compile(@constructor.wrapperNode)()
+      @boundingBox = $(processedWrapper)
+      @boundingBox.addClass(@constructor.name + "Widget")
+
+      if (@constructor.contentBoxSelector)
+        @contentBox = @boundingBox.find(@constructor.contentBoxSelector)
+      else
+        @contentBox = @boundingBox
 
       if (@constructor.markup)
-        self = this
-        Handlebars.default.registerHelper("s", (string) ->
-          return self.getString(string)
-        )
-
         processedMarkup = Handlebars.default.compile(@constructor.markup)()
         @contentBox.append($(processedMarkup))
 
       @renderUi()
-      container.append(@contentBox)
+      container.append(@boundingBox)
       return this
 
     # Get an Internationalized string for this widget
