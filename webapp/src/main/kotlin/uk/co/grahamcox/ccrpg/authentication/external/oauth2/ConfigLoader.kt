@@ -9,16 +9,15 @@ import org.slf4j.LoggerFactory
  * Mechanism to load the OAuth2 configuration
  * @param dao The DAO to load the config with
  */
-class ConfigLoader(private val dao: OAuth2ConfigDao) {
+class ConfigLoader(private val dao: OAuth2ConfigDao, private val provider: String) {
     class object {
         private val LOG = LoggerFactory.getLogger(javaClass<ConfigLoader>())
     }
     /**
      * Load the configuration
-     * @param provider The name of the provider
      * @return the configuration
      */
-    fun loadConfig(provider: String) : Config? {
+    fun loadConfig() : Config? {
         val result: Config? =
         try {
             dao.loadConfig(provider)
