@@ -9,7 +9,7 @@ define(["ccrpg/base", "handlebars", "i18next"], (Base, Handlebars, i18next) ->
 
     # The attributes common to a widget
     @attrs = {
-        "container": {}
+        "container": {defaultValue: $("body")}
     }
 
     # Render the widget
