@@ -22,15 +22,16 @@ define(["ccrpg/ui/widget",
 
       @mainCardPanel.addPanel("landingScreen", new LandingScreen())
       @mainCardPanel.addPanel("helpScreen", new HelpScreen())
-      @mainCardPanel.addPanel("newUserScreen", new NewUserScreen())
       @mainCardPanel.showPanel("landingScreen")
+
+      @newUserDialog = new NewUserScreen().render()
 
       crossroads.addRoute '/', () => @mainCardPanel.showPanel("landingScreen")
       crossroads.addRoute '/help', () => @mainCardPanel.showPanel("helpScreen")
       newUserSignal.add (data) =>
 #        @mainCardPanel.getPanel("newUserScreen").set("userId", data.id)
 #        @mainCardPanel.getPanel("newUserScreen").set("provider", data.provider)
-        @mainCardPanel.showPanel("newUserScreen")
+        @newUserDialog.show()
 
   return MainPage
 )

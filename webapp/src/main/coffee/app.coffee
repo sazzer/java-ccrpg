@@ -5,4 +5,7 @@ requirejs.config({
   }
 })
 
-require(["main"])
+require(["jquery"], () ->
+    require(["jquery", "bootstrap", "main"])
+)
+

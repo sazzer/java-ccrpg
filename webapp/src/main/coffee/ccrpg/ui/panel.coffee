@@ -8,13 +8,13 @@ define(["ccrpg/ui/widget"], (Widget) ->
     # Show the panel
     show: () ->
       wasVisible = @isVisible()
-      @contentBox.show()
+      @boundingBox.show()
       @signal("visibleChanged").dispatch(true, wasVisible)
 
     # Hide the panel
     hide: () ->
       wasVisible = @isVisible()
-      @contentBox.hide()
+      @boundingBox.hide()
       @signal("visibleChanged").dispatch(false, wasVisible)
 
     # Set the visibility based on the provided value
