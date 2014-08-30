@@ -1,28 +1,25 @@
-package uk.co.grahamcox.ccrpg.authentication.external.google
+package uk.co.grahamcox.ccrpg.authentication.external.oauth2
 
 import uk.co.grahamcox.mongodb.MongoDbTestBase
-import uk.co.grahamcox.ccrpg.authentication.external.google.mongo.GoogleConfigMongoDao
-import kotlin.properties.Delegates
+import uk.co.grahamcox.ccrpg.authentication.external.oauth2.mongo.OAuth2ConfigMongoDao
 import org.junit.Before
 import org.junit.Test
 import uk.co.grahamcox.ccrpg.dao.NoRecordFoundException
+import uk.co.grahamcox.ccrpg.dao.BadlyFormedRecordException
+import kotlin.properties.Delegates
 import org.junit.Assert
 import java.net.URI
-import uk.co.grahamcox.ccrpg.dao.BadlyFormedRecordException
 
-/**
- * Unit tests for the Google Config Mongo DAO
- */
-class GoogleConfigMongoDaoTest : MongoDbTestBase() {
+class OAuth2ConfigMongoDaoTest : MongoDbTestBase() {
     /** The DAO to test */
-    var dao: GoogleConfigMongoDao by Delegates.notNull()
+    var dao: OAuth2ConfigMongoDao by Delegates.notNull()
 
     /**
      * Set up the DAO to test
      */
     [Before]
     fun setup() {
-        dao = GoogleConfigMongoDao(mongoDb)
+        dao = OAuth2ConfigMongoDao(mongoDb)
     }
 
     /**
@@ -30,7 +27,7 @@ class GoogleConfigMongoDaoTest : MongoDbTestBase() {
      */
     [Test(expected = javaClass<NoRecordFoundException>())]
     fun testLoadNoConfig() {
-        dao.loadConfig()
+        dao.loadConfig("google")
     }
     /**
      * Test loading badly formed config
@@ -38,8 +35,8 @@ class GoogleConfigMongoDaoTest : MongoDbTestBase() {
     [Test(expected = javaClass<BadlyFormedRecordException>())]
     fun testLoadBadConfig() {
         populateDatabase("externalAuthenticationConfig",
-                "/uk/co/grahamcox/ccrpg/authentication/external/google/mongo/invalidAuthentication.json")
-        dao.loadConfig()
+                "/uk/co/grahamcox/ccrpg/authentication/external/oauth2/mongo/invalidAuthentication.json")
+        dao.loadConfig("google")
     }
     /**
      * Test successfully loading the config
@@ -47,8 +44,8 @@ class GoogleConfigMongoDaoTest : MongoDbTestBase() {
     [Test]
     fun testLoadConfig() {
         populateDatabase("externalAuthenticationConfig",
-                "/uk/co/grahamcox/ccrpg/authentication/external/google/mongo/validAuthentication.json")
-        val config = dao.loadConfig()
+                "/uk/co/grahamcox/ccrpg/authentication/external/oauth2/mongo/validAuthentication.json")
+        val config = dao.loadConfig("google")
         Assert.assertEquals("TestClientId", config.clientId)
         Assert.assertEquals("TestClientSecret", config.clientSecret)
         Assert.assertEquals(URI("http://localhost:8080/api/authentication/external/google/callback"), config.redirectUri)

@@ -1,9 +1,10 @@
-package uk.co.grahamcox.ccrpg.authentication.external.google
+package uk.co.grahamcox.ccrpg.authentication.external.oauth2
 
 import uk.co.grahamcox.ccrpg.authentication.external.Nonce
 
 /**
- * Wrapper around the parameters that are received from Google
+ * Representation of the callback params
+ * @param params The parameters to work with
  */
 data class CallbackParams(val params: Map<String, String>) {
     /** The nonce that came back from the callback */

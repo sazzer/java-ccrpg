@@ -1,13 +1,13 @@
-package uk.co.grahamcox.ccrpg.authentication.external.google
+package uk.co.grahamcox.ccrpg.authentication.external.jwt
 
-import java.util.regex.Pattern
-import java.util.Base64
-import java.nio.charset.Charset
-import org.slf4j.LoggerFactory
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.slf4j.LoggerFactory
+import java.nio.charset.Charset
+import java.util.Base64
 
 /**
- * Representation of a JSON Web Token
+ * Wrapper around a JSON Web Token
+ * @param jwt The raw JWT string
  */
 data class JWT(jwt: String) {
     class object {

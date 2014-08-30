@@ -9,6 +9,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.web.client.RestTemplate
 import org.springframework.util.LinkedMultiValueMap
 import uk.co.grahamcox.ccrpg.authentication.external.AuthenticatedUser
+import uk.co.grahamcox.ccrpg.authentication.external.oauth2.AccessTokenResponse
+import uk.co.grahamcox.ccrpg.authentication.external.oauth2.CallbackParams
+import uk.co.grahamcox.ccrpg.authentication.external.oauth2.ConfigLoader
+import uk.co.grahamcox.ccrpg.authentication.external.oauth2.Config
 
 /**
  * Authenticator for working with the Google+ Authentication API
@@ -23,12 +27,21 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
     var restTemplate: RestTemplate = RestTemplate()
     /** {@inheritDoc} */
     override fun isActive(): Boolean {
-        return (configLoader.loadConfig() != null)
+        return try {
+            loadConfig()
+            true
+        } catch (e : UnsupportedProviderException) {
+            false
+        }
     }
+    /**
+     * Load the OAuth 2 configuration
+     */
+    private fun loadConfig() : Config = configLoader.loadConfig("google") ?: throw UnsupportedProviderException()
 
     /** {@inheritDoc} */
     override fun getRedirectUri(nonce: Nonce): URI? {
-        val config = configLoader.loadConfig() ?: throw UnsupportedProviderException()
+        val config = loadConfig()
 
         LOG.debug("Generating redirect URI for Nonce {} using Client ID {}",
                 nonce, config.clientId)
@@ -52,7 +65,7 @@ class GoogleAuthenticator(val configLoader: ConfigLoader) : Authenticator {
         val callbackParams = CallbackParams(params)
         LOG.debug("Handling callback for nonce {} with params {}", nonce, callbackParams)
 
-        val config = configLoader.loadConfig() ?: throw UnsupportedProviderException()
+        val config = loadConfig()
         val tokenRequestParams = LinkedMultiValueMap<String, String?>()
         tokenRequestParams.add("code", callbackParams.authorizationCode)
         tokenRequestParams.add("client_id", config.clientId)

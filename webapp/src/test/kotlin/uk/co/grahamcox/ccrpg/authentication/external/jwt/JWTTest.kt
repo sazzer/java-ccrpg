@@ -1,8 +1,7 @@
-package uk.co.grahamcox.ccrpg.authentication.external.google
+package uk.co.grahamcox.ccrpg.authentication.external.jwt
 
 import org.spek.Spek
 import org.junit.Assert
-
 
 class JWTTest : Spek() {{
     given("the reference JWT") {
@@ -17,10 +16,10 @@ class JWTTest : Spek() {{
                 Assert.assertEquals("JWT", jwt.jwtType)
             }
             it("should have 'HS256' for the algorithm") {
-                    Assert.assertEquals("HS256", jwt.algorithm)
+                Assert.assertEquals("HS256", jwt.algorithm)
             }
             it("should have 'joe' for the Issuer") {
-                    Assert.assertEquals("joe", jwt.issuer)
+                Assert.assertEquals("joe", jwt.issuer)
             }
             it("should have '1300819380' for the Expiration Time") {
                 Assert.assertEquals(1300819380, jwt.expiration ?: null)

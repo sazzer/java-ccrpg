@@ -31,7 +31,7 @@ class ExternalAuthenticationController(val authenticationService: Authentication
     [ExceptionHandler(javaClass<UnsupportedProviderException>())]
     [ResponseStatus(HttpStatus.NOT_FOUND)]
     [ResponseBody]
-    fun unsupportedProvider(e: UnsupportedProviderException) = "Unsupported authentication service"
+    fun unsupportedProvider() = "Unsupported authentication service"
 
     /**
      * Get the list of authentication providers that are supported
