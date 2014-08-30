@@ -52,7 +52,6 @@ define(["ccrpg/request",
 
       loginMenu.on("click", "li a", () ->
         console.log("Starting a Login process")
-        NewUserSignal.dispatch({"provider": "google", "id": 1234})
 
         AuthenticationCallbackSignal.addOnce((data) ->
           console.log("Logged in from #{data.provider} with ID #{data.id}. New user: #{data.newUser}")

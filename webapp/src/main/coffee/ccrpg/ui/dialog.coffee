@@ -30,7 +30,7 @@ define(["ccrpg/ui/widget"], (Widget) ->
 
     # Display the dialog
     show: () ->
-        @boundingBox.modal()
+        $(@boundingBox).modal()
 
   return Dialog
 )
