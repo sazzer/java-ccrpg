@@ -36,13 +36,7 @@
                         <property name="scopes" value="email" />
                         <property name="configLoader" ref="facebookConfigLoader" />
                         <property name="userDetailsLoader">
-                            <bean class="uk.co.grahamcox.ccrpg.authentication.external.facebook.FacebookUserDetailsLoader">
-                                <property name="appAccessTokenLoader">
-                                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.facebook.AppAccessTokenLoader">
-                                        <property name="configLoader" ref="facebookConfigLoader" />
-                                    </bean>
-                                </property>
-                            </bean>
+                            <bean class="uk.co.grahamcox.ccrpg.authentication.external.facebook.FacebookUserDetailsLoader" />
                         </property>
                     </bean>
                 </entry>
