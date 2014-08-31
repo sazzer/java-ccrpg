@@ -3,7 +3,16 @@ define(["ccrpg/ui/dialog"], (Dialog) ->
   class NewUserScreen extends Dialog
     # The actual markup to render
     @markup = """
-    <span>This is the new user screen.</span>
+      <fieldset>
+        <div class="form-group">
+          <label for="screenName" class="control-label">{{s 'screenName.label'}}</label>
+          <input type="text" class="form-control" name="screenName" placeholder="{{s 'screenName.placeholder'}}" />
+        </div>
+        <div class="form-group">
+          <label for="email" class="control-label">{{s 'email.label'}}</label>
+          <input type="text" class="form-control" name="email" placeholder="{{s 'email.placeholder'}}" />
+        </div>
+      </fieldset>
     """
   return NewUserScreen
 )
