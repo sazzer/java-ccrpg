@@ -11,9 +11,8 @@ import uk.co.grahamcox.ccrpg.dao.BadlyFormedRecordException
 
 /**
  * Implementation of the OAuth2 Config DAO that works in terms of the MongoDB store
- * @param mongoDb The database connection
  */
-class OAuth2ConfigMongoDao(mongoDb: DB) : BaseMongoDao(mongoDb, "externalAuthenticationConfig"), OAuth2ConfigDao {
+class OAuth2ConfigMongoDao : BaseMongoDao("externalAuthenticationConfig"), OAuth2ConfigDao {
     /**
      * Try and load the Google Authentication configuration
      * @param provider The name of the provider

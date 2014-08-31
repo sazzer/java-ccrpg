@@ -51,8 +51,8 @@ class TextPlainToMapHttpMessageConverter : AbstractHttpMessageConverter<Map<Stri
      * @return the charset
      */
     private fun getContentTypeCharset(contentType: MediaType?): Charset? {
-        if (contentType != null && contentType!!.getCharSet() != null) {
-            return contentType!!.getCharSet()
+        if (contentType != null && contentType.getCharSet() != null) {
+            return contentType.getCharSet()
         } else {
             return this.defaultCharset
         }

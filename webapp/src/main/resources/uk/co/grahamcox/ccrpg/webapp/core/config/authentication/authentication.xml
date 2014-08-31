@@ -5,39 +5,43 @@
 
     <bean id="nonceGenerator" class="uk.co.grahamcox.ccrpg.authentication.external.UUIDNonceGenerator" />
 
+    <bean id="oauth2ConfigDao" class="uk.co.grahamcox.ccrpg.authentication.external.oauth2.mongo.OAuth2ConfigMongoDao">
+        <property name="mongoDb" ref="mongoDb" />
+    </bean>
+
     <bean id="authenticationService" class="uk.co.grahamcox.ccrpg.authentication.external.AuthenticationService">
-        <constructor-arg>
+        <property name="services">
             <map>
                 <entry key="google">
-                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.GoogleAuthenticator">
-                        <constructor-arg index="0">
+                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.oauth2.OAuth2Authenticator">
+                        <property name="scopes" value="openid email" />
+                        <property name="configLoader">
                             <bean class="uk.co.grahamcox.ccrpg.authentication.external.oauth2.ConfigLoader">
-                                <constructor-arg index="0">
-                                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.oauth2.mongo.OAuth2ConfigMongoDao">
-                                        <constructor-arg index="0" ref="mongoDb" />
-                                    </bean>
-                                </constructor-arg>
-                                <constructor-arg index="1" value="google" />
+                                <property name="dao" ref="oauth2ConfigDao" />
+                                <property name="provider" value="google" />
                             </bean>
-                        </constructor-arg>
+                        </property>
+                        <property name="userDetailsLoader">
+                            <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.GoogleUserDetailsLoader" />
+                        </property>
                     </bean>
                 </entry>
                 <entry key="facebook">
-                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.google.FacebookAuthenticator">
-                        <constructor-arg index="0">
+                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.oauth2.OAuth2Authenticator">
+                        <property name="scopes" value="email" />
+                        <property name="configLoader">
                             <bean class="uk.co.grahamcox.ccrpg.authentication.external.oauth2.ConfigLoader">
-                                <constructor-arg index="0">
-                                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.oauth2.mongo.OAuth2ConfigMongoDao">
-                                        <constructor-arg index="0" ref="mongoDb" />
-                                    </bean>
-                                </constructor-arg>
-                                <constructor-arg index="1" value="facebook" />
+                                <property name="dao" ref="oauth2ConfigDao" />
+                                <property name="provider" value="facebook" />
                             </bean>
-                        </constructor-arg>
+                        </property>
+                        <property name="userDetailsLoader">
+                            <bean class="uk.co.grahamcox.ccrpg.authentication.external.facebook.FacebookUserDetailsLoader" />
+                        </property>
                     </bean>
                 </entry>
             </map>
-        </constructor-arg>
+        </property>
     </bean>
 
 </beans>

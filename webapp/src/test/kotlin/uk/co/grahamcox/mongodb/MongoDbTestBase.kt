@@ -36,7 +36,6 @@ open class MongoDbTestBase(val seedData: Map<String, String>? = null) {
         LOG.info("Starting the database")
         mongo.start()
         mongoDb = MongoClient("localhost", mongoPort).getDB("unittest")
-                ?: throw IllegalStateException("Failed to connect to the database")
         if (seedData != null) {
             populateDatabase(seedData)
         }

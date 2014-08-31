@@ -19,7 +19,8 @@ class OAuth2ConfigMongoDaoTest : MongoDbTestBase() {
      */
     [Before]
     fun setup() {
-        dao = OAuth2ConfigMongoDao(mongoDb)
+        dao = OAuth2ConfigMongoDao()
+        dao.mongoDb = mongoDb
     }
 
     /**

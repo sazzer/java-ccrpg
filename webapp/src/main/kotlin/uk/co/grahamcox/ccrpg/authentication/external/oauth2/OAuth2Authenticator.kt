@@ -10,18 +10,26 @@ import org.springframework.web.util.UriComponentsBuilder
 import uk.co.grahamcox.ccrpg.authentication.external.AuthenticatedUser
 import org.springframework.util.LinkedMultiValueMap
 import uk.co.grahamcox.ccrpg.TextPlainToMapHttpMessageConverter
+import kotlin.properties.Delegates
 
 /**
  * Authenticator for working with OAuth2 Authentication APIs
- * @param configLoader the mechanism to load the OAuth2 Config
  */
-abstract class OAuth2Authenticator(private val configLoader: ConfigLoader, private val scopes: String) : Authenticator {
+class OAuth2Authenticator : Authenticator {
     class object {
         /** The logger to use */
         val LOG = LoggerFactory.getLogger(javaClass<OAuth2Authenticator>())
     }
+    /** the mechanism to load the OAuth2 Config */
+    var configLoader: ConfigLoader by Delegates.notNull()
+    /** the mechanism to load the user details */
+    var userDetailsLoader: UserDetailsLoader by Delegates.notNull()
+    /** The OAuth2 Scopes to request */
+    var scopes: String by Delegates.notNull()
+
     /** the mechanism by which to make HTTP calls */
     var restTemplate: RestTemplate = RestTemplate();
+
 
     {
         restTemplate.getMessageConverters()?.add(TextPlainToMapHttpMessageConverter())
@@ -81,10 +89,6 @@ abstract class OAuth2Authenticator(private val configLoader: ConfigLoader, priva
                 javaClass<Map<String, String>>()) ?: throw IllegalArgumentException("No response returned"))
 
         LOG.debug("Response from requesting the authorization token: {}", tokenResponse)
-        return getUserDetails(tokenResponse)
+        return userDetailsLoader.getUserDetails(tokenResponse)
     }
-    /**
-     * Get the user details for the authenticated access token
-     */
-    abstract fun getUserDetails(accessToken: AccessTokenResponse): AuthenticatedUser
 }

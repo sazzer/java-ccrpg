@@ -1,11 +1,14 @@
 package uk.co.grahamcox.ccrpg.authentication.external
 
 import java.net.URI
+import kotlin.properties.Delegates
 
 /**
  * Service to provide access to external authentication providers
  */
-class AuthenticationService(val services: Map<String, Authenticator>) {
+class AuthenticationService {
+    /** The providers to work with */
+    var services: Map<String, Authenticator> by Delegates.notNull()
     /**
      * Check if the requested Authentication Service is available and active
      * @param name The name of the service
