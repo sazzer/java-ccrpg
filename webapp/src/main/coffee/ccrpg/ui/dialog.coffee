@@ -3,7 +3,7 @@ define(["ccrpg/ui/widget"], (Widget) ->
   class Dialog extends Widget
     # The outermost element in which the widget is rendered
     @wrapperNode = """
-    <div class="modal fade">
+    <div class="modal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -19,9 +19,9 @@ define(["ccrpg/ui/widget"], (Widget) ->
             <button type="button" class="btn btn-default" data-dismiss="modal">{{s 'button.cancel'}}</button>
             <button type="button" class="btn btn-primary">{{s 'button.ok'}}</button>
           </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        </div>
+      </div>
+    </div>
     """
 
     # Selector to find the content box in the wrapper
@@ -29,7 +29,7 @@ define(["ccrpg/ui/widget"], (Widget) ->
 
     # Display the dialog
     show: () ->
-        $(@boundingBox).modal()
+        @boundingBox.modal()
 
   return Dialog
 )
