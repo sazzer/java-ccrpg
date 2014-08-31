@@ -27,9 +27,23 @@ define(["ccrpg/ui/widget"], (Widget) ->
     # Selector to find the content box in the wrapper
     @contentBoxSelector = ".modal-body"
 
+    @signals = [
+      "okClicked"
+    ]
+
+    # Perform any widget specific rendering of the UI
+    renderUi: () ->
+      @boundingBox.find(".modal-footer .btn-primary").on("click", (e) =>
+        if (@_onOkClicked())
+          @boundingBox.modal("hide")
+          @signal("okClicked").dispatch(e)
+      )
+
     # Display the dialog
     show: () ->
         @boundingBox.modal()
 
+    # Handler for when the OK button is clicked on the dialog
+    _onOkClicked: () -> true
   return Dialog
 )

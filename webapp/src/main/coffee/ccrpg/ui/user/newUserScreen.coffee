@@ -14,5 +14,11 @@ define(["ccrpg/ui/dialog"], (Dialog) ->
         </div>
       </fieldset>
     """
+
+    # Handler for when the OK button is clicked on the dialog
+    _onOkClicked: () ->
+      console.log("Ok clicked")
+      true
+
   return NewUserScreen
 )
