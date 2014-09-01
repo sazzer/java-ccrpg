@@ -11,7 +11,10 @@ define(["signals"], (signals) ->
     # @param key The key of the field
     # @return the config for the field
     _fieldConfig: (key) ->
-      @constructor.fields[key]
+      config = @constructor.fields[key]
+      unless (config)
+        throw new Error("Requested field is unknown: #{key}")
+      config
 
     # Get the field names that are defined on the model
     # @return the list of field names

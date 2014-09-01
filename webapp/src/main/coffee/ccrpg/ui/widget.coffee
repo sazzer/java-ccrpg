@@ -1,4 +1,4 @@
-define(["ccrpg/base", "handlebars", "i18next"], (Base, Handlebars, i18next) ->
+define(["ccrpg/base", "ccrpg/ui/dataBinding", "handlebars", "i18next"], (Base, DataBinding, Handlebars, i18next) ->
   # Widget class for anything that gets rendered
   # Automatically handles some logic for rendering the widget
   class Widget extends Base
@@ -34,6 +34,11 @@ define(["ccrpg/base", "handlebars", "i18next"], (Base, Handlebars, i18next) ->
         @contentBox.append($(processedMarkup))
 
       @renderUi()
+
+      if (@constructor.modelClass)
+        @_model = new @constructor.modelClass()
+        @_dataBinding = new DataBinding(@_model, @boundingBox)
+
       container.append(@boundingBox)
       return this
 
@@ -43,6 +48,10 @@ define(["ccrpg/base", "handlebars", "i18next"], (Base, Handlebars, i18next) ->
     getString: (string) ->
       return i18next.t(@constructor.name + "." + string)
 
+    # Get the model object that is used for this widget, if there is one
+    # @return the model object
+    getModel: () -> @_model
+      
     # Perform any widget specific rendering of the UI
     renderUi: () ->
   return Widget
