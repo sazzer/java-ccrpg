@@ -17,6 +17,10 @@ define(["ccrpg/ui/dialog", "ccrpg/session/user/newUserModel"], (Dialog, NewUserM
 
     @modelClass = NewUserModel
 
+    # Handler for when the dialog is displayed
+    _onShown: () ->
+      @getModel().reset()
+
     # Handler for when the OK button is clicked on the dialog
     _onOkClicked: () ->
       console.log("Ok clicked")

@@ -41,9 +41,13 @@ define(["ccrpg/ui/widget"], (Widget) ->
 
     # Display the dialog
     show: () ->
+        @_onShown()
         @boundingBox.modal()
 
     # Handler for when the OK button is clicked on the dialog
     _onOkClicked: () -> true
+
+    # Handler for when the dialog is displayed
+    _onShown: () ->
   return Dialog
 )

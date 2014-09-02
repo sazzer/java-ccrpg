@@ -36,5 +36,16 @@ define(["signals"], (signals) ->
       if (oldValue != value)
         @valueChanged.dispatch(key, value, oldValue)
 
+    # Clear the value of the given key
+    # @param key The key to clear
+    clear: (key) ->
+      oldValue = @_data[key]
+      delete @_data[key]
+      @valueChanged.dispatch(key, @get(key), oldValue)
+
+    # Reset the model to its default state
+    reset: () ->
+      for field in @fields()
+        @clear field
   return Model
 )
