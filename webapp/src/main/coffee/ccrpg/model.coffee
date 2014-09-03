@@ -25,7 +25,10 @@ define(["signals"], (signals) ->
     # @param key The key to get the value of
     get: (key) ->
       fieldConfig = @_fieldConfig(key)
-      @_data[key] || fieldConfig.default
+      result = @_data[key]
+      if (result == undefined)
+        result = fieldConfig.default
+      result
 
     # Set the value to the given key
     # @param key The key to set the value of
@@ -47,5 +50,80 @@ define(["signals"], (signals) ->
     reset: () ->
       for field in @fields()
         @clear field
+
+    # Perform validation on the entire model
+    # @return object containing all of the validation errors
+    validate: () ->
+      result = {}
+      for field in @fields()
+        validation = @_validateField(field)
+        if (validation && validation.length > 0)
+          result[field] = validation
+      result
+
+    # Validate a single field
+    # @param key The key of the field to validate
+    # @return array of validation errors. Always returns an array, but may be empty if no errors occurred
+    _validateField: (key) ->
+      result = []
+      fieldConfig = @_fieldConfig(key)
+      fieldValue = @get(key)
+      validations = [
+        @_validateRequired,
+        @_validateMinLength,
+        @_validateMaxLength
+      ]
+      for v in validations
+        valid = v(fieldConfig, key, fieldValue)
+        if (valid)
+          result.push(valid)
+      result
+
+    # Validate a required field has a value
+    # @param fieldConfig the configuration of the field
+    # @param fieldName the name of the field
+    # @param fieldValue the value of the field
+    # @return undefined if the field is valid. An object with the validation results if the field is invalid
+    _validateRequired: (fieldConfig, fieldName, fieldValue) ->
+      result = undefined
+      if (fieldConfig.required && fieldValue == undefined)
+        result = {
+          errorCode: "validation.required"
+        }
+      result
+
+    # Validate a field has a required minimum legnth
+    # @param fieldConfig the configuration of the field
+    # @param fieldName the name of the field
+    # @param fieldValue the value of the field
+    # @return undefined if the field is valid. An object with the validation results if the field is invalid
+    _validateMinLength: (fieldConfig, fieldName, fieldValue) ->
+      result = undefined
+      if (fieldValue != undefined && fieldConfig.type == "string" && fieldConfig.minLength && fieldValue.length < fieldConfig.minLength)
+        result = {
+          errorCode: "validation.minLength",
+          values: {
+            minLength: fieldConfig.minLength,
+            fieldLength: fieldValue.length
+          }
+        }
+      result
+
+    # Validate a field has a required maximum legnth
+    # @param fieldConfig the configuration of the field
+    # @param fieldName the name of the field
+    # @param fieldValue the value of the field
+    # @return undefined if the field is valid. An object with the validation results if the field is invalid
+    _validateMaxLength: (fieldConfig, fieldName, fieldValue) ->
+      result = undefined
+      if (fieldValue != undefined && fieldConfig.type == "string" && fieldConfig.maxLength && fieldValue.length < fieldConfig.maxLength)
+        result = {
+          errorCode: "validation.maxLength",
+          values: {
+            maxLength: fieldConfig.maxLength,
+            fieldLength: fieldValue.length
+          }
+        }
+      result
   return Model
 )

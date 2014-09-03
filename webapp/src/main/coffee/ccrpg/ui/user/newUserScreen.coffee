@@ -23,7 +23,8 @@ define(["ccrpg/ui/dialog", "ccrpg/session/user/newUserModel"], (Dialog, NewUserM
 
     # Handler for when the OK button is clicked on the dialog
     _onOkClicked: () ->
-      console.log("Ok clicked")
+      validations = @getModel().validate()
+      console.log(validations)
       true
 
   return NewUserScreen
