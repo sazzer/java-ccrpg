@@ -1,2 +1,2 @@
-web: mvn clean install && mvn -f webapp/pom.xml jetty:run-war -Djetty.port=$PORT
+web: mvn -f webapp/pom.xml jetty:run-war -Djetty.port=$PORT -DskipTests
 
