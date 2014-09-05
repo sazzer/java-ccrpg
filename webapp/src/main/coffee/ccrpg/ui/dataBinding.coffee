@@ -34,7 +34,12 @@ define([], () ->
     handleViewChange: (control) ->
       newVal = control.val()
       fieldName = control.attr("data-binding")
-      @model.set(fieldName, newVal)
+      validation = @model.set(fieldName, newVal)
+      parent = control.parent(".form-group")
+      if (validation && validation.length > 0)
+        parent.addClass("has-error")
+      else
+        parent.removeClass("has-error")
 
   return DataBinding
 )

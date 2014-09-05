@@ -39,6 +39,10 @@ define(["signals"], (signals) ->
       if (oldValue != value)
         @valueChanged.dispatch(key, value, oldValue)
 
+      # Perform validation and return the result.
+      @_validateField(key)
+
+
     # Clear the value of the given key
     # @param key The key to clear
     clear: (key) ->
