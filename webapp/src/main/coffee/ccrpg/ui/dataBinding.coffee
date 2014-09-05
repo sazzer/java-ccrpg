@@ -30,16 +30,28 @@ define([], () ->
       for field, control of @_viewFields
         control.val(@model.get(field))
 
+      # Assume for now that all of the fields are valid
+      for field, control of @_viewFields
+        parent = control.parent(".form-group")
+        alert = parent.find(".alert")
+        alert.hide()
+
+
     # Handler for when a field on the view changes
     handleViewChange: (control) ->
       newVal = control.val()
       fieldName = control.attr("data-binding")
       validation = @model.set(fieldName, newVal)
       parent = control.parent(".form-group")
+      alert = parent.find(".alert")
       if (validation && validation.length > 0)
         parent.addClass("has-error")
+        alert.empty()
+        alert.append("An error occurred")
+        alert.show()
       else
         parent.removeClass("has-error")
+        alert.hide()
 
   return DataBinding
 )
