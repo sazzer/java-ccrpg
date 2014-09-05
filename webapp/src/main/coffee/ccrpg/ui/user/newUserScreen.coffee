@@ -7,11 +7,12 @@ define(["ccrpg/ui/dialog", "ccrpg/session/user/newUserModel"], (Dialog, NewUserM
         <div class="form-group">
           <label for="screenName" class="control-label">{{s 'screenName.label'}}</label>
           <input type="text" class="form-control" name="screenName" data-binding="screenName" placeholder="{{s 'screenName.placeholder'}}" />
+          <div class="alert alert-danger"></div>
         </div>
         <div class="form-group">
           <label for="email" class="control-label">{{s 'email.label'}}</label>
           <input type="text" class="form-control" name="email" data-binding="email" placeholder="{{s 'email.placeholder'}}" />
-          <div class="alert alert-danger">This field is bad</div>
+          <div class="alert alert-danger"></div>
         </div>
       </fieldset>
     """

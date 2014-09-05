@@ -92,7 +92,7 @@ define(["signals"], (signals) ->
       result = undefined
       if (fieldConfig.required && fieldValue == undefined)
         result = {
-          errorCode: "validation.required"
+          errorCode: "required"
         }
       result
 
@@ -105,7 +105,7 @@ define(["signals"], (signals) ->
       result = undefined
       if (fieldValue != undefined && fieldConfig.type == "string" && fieldConfig.minLength && fieldValue.length < fieldConfig.minLength)
         result = {
-          errorCode: "validation.minLength",
+          errorCode: "minLength",
           values: {
             minLength: fieldConfig.minLength,
             fieldLength: fieldValue.length
@@ -122,7 +122,7 @@ define(["signals"], (signals) ->
       result = undefined
       if (fieldValue != undefined && fieldConfig.type == "string" && fieldConfig.maxLength && fieldValue.length < fieldConfig.maxLength)
         result = {
-          errorCode: "validation.maxLength",
+          errorCode: "maxLength",
           values: {
             maxLength: fieldConfig.maxLength,
             fieldLength: fieldValue.length

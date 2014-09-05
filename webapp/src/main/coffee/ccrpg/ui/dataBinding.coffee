@@ -1,4 +1,4 @@
-define([], () ->
+define(["ccrpg/ui/validation"], (validationFormatter) ->
   # Mechanism to automatically bind model and view together
   class DataBinding
     # Construct the data binder
@@ -44,10 +44,14 @@ define([], () ->
       validation = @model.set(fieldName, newVal)
       parent = control.parent(".form-group")
       alert = parent.find(".alert")
+      alertList = alert.find("ul")
+      unless (alertList && alertList.length > 0)
+        alertList = alert.append("<ul></ul>")
+      alertList.empty()
       if (validation && validation.length > 0)
         parent.addClass("has-error")
-        alert.empty()
-        alert.append("An error occurred")
+        for v in validation
+          alertList.append("""<li>#{validationFormatter(v)}</li>""")
         alert.show()
       else
         parent.removeClass("has-error")
