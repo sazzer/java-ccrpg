@@ -38,21 +38,24 @@ define(["ccrpg/ui/validation"], (validationFormatter) ->
         control.val(@model.get(field))
 
       for field, control of @_viewFields
-        @handleViewChange(control)
+        @handleViewChange(control, false)
 
 
     # Handler for when a field on the view changes
-    handleViewChange: (control) ->
+    # @param control The control to handle the change for
+    # @param performValidation whether to perform validation or not. Default to true
+    handleViewChange: (control, performValidation = true) ->
       newVal = control.val()
       fieldName = control.attr("data-binding")
       validation = @model.set(fieldName, newVal)
+
       parent = control.parent(".form-group")
       alert = parent.find(".alert")
       alertList = alert.find("ul")
       unless (alertList && alertList.length > 0)
         alertList = alert.append("<ul></ul>")
       alertList.empty()
-      if (validation && validation.length > 0)
+      if (performValidation && validation && validation.length > 0)
         parent.addClass("has-error")
         for v in validation
           alertList.append("""<li>#{validationFormatter(v)}</li>""")

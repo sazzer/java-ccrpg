@@ -57,6 +57,14 @@ define(["signals"], (signals) ->
         @clear field
       @fieldsReset.dispatch()
 
+    # Return a JSON representation of the model
+    # @return the model data, including any defaults filled out
+    toJson: () ->
+      result = {}
+      for field in @fields()
+        result[field] = @get(field)
+      result
+
     # Perform validation on the entire model
     # @return object containing all of the validation errors
     validate: () ->

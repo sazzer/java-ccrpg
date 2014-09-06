@@ -7,15 +7,13 @@ define(["ccrpg/model"], (Model) ->
       email: {
         type: "string",
         required: true,
-        minLength: 1,
-        default: "graham.cox@oclc.org"
+        minLength: 1
       },
       # The screen name
       screenName: {
         type: "string",
         required: true,
-        minLength: 1,
-        default: "sazzer"
+        minLength: 1
       },
       # The provider that the request came from
       provider: {
