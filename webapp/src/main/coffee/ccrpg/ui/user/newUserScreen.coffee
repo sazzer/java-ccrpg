@@ -67,10 +67,10 @@ define(["ccrpg/ui/dialog",
         request.go().then((result) =>
           @hide()
         ).catch((err) =>
-          if (err.status == "error")
-            errorMsg = "An internal error occurred"
+          if (err.statusCode == 400)
+            errorMsg = err.response
           else
-            errorMsg = err.error
+            errorMsg = "An internal error occurred"
           console.log("Error creating the user: #{err.error}")
           newUserErrors.text("Error creating user: #{errorMsg}").show()
         )

@@ -28,7 +28,9 @@ define(["bluebird", "ccrpg/base"], (Promise, Base) ->
         console.log("Ajax call error: " + error)
         deferred.reject({
           error: error,
-          status: status
+          status: status,
+          statusCode: xhr.status,
+          response: xhr.responseText
         })
 
       $.ajax({
