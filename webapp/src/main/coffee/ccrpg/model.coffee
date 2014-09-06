@@ -6,6 +6,7 @@ define(["signals"], (signals) ->
     constructor: () ->
       @_data = {}
       @valueChanged = new signals.Signal()
+      @fieldsReset = new signals.Signal()
 
     # Get the field config for the field with the given key
     # @param key The key of the field
@@ -54,6 +55,7 @@ define(["signals"], (signals) ->
     reset: () ->
       for field in @fields()
         @clear field
+      @fieldsReset.dispatch()
 
     # Perform validation on the entire model
     # @return object containing all of the validation errors

@@ -10,7 +10,7 @@ define(["ccrpg/ui/validation"], (validationFormatter) ->
       # Find all of the View fields to match the model fields
       for field in @model.fields()
         control = @view.find("[data-binding='#{field}']")
-        if (control)
+        if (control && control.length > 0)
           @_viewFields[field] = control
 
       # Wire up so that the view fields changing will change the model fields
@@ -26,15 +26,19 @@ define(["ccrpg/ui/validation"], (validationFormatter) ->
         if (viewField)
           viewField.val(newValue)
 
+      @model.fieldsReset.add () =>
+        @_initialUpdate()
+
+      @_initialUpdate()
+
+
+    _initialUpdate: () ->
       # Set all of the view fields to the model initial values
       for field, control of @_viewFields
         control.val(@model.get(field))
 
-      # Assume for now that all of the fields are valid
       for field, control of @_viewFields
-        parent = control.parent(".form-group")
-        alert = parent.find(".alert")
-        alert.hide()
+        @handleViewChange(control)
 
 
     # Handler for when a field on the view changes
