@@ -20,6 +20,10 @@
         <constructor-arg index="0" ref="authenticationService" />
         <constructor-arg index="1" ref="nonceGenerator" />
     </bean>
+
+    <bean class="uk.co.grahamcox.ccrpg.webapp.user.UserController">
+
+    </bean>
 </beans>
 
 
