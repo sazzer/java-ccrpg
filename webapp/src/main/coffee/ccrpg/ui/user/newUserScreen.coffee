@@ -20,6 +20,13 @@ define(["ccrpg/ui/dialog",
       </fieldset>
     """
 
+    @nodes = {
+      "screenName": "input[name='screenName']",
+      "email": "input[name='email']",
+      "inputs": "input",
+      "errors": ".newUserErrors"
+    }
+
     @modelClass = NewUserModel
 
     # Set the External Authentication Provider and ID that we are registering with
@@ -32,18 +39,19 @@ define(["ccrpg/ui/dialog",
     # Handler for when the dialog is displayed
     _onShown: () ->
       @getModel().reset()
-      @boundingBox.find(".newUserErrors").empty().hide()
+      @node("errors").empty().hide()
+      @node("screenName").focus()
 
     # Handler for when the OK button is clicked on the dialog
     _onOkClicked: () ->
-      newUserErrors = @boundingBox.find(".newUserErrors")
+      newUserErrors = @node("errors")
       newUserErrors.empty().hide()
 
       validationResult = @getModel().validate()
       if (validationResult && Object.keys(validationResult).length > 0)
         console.log("Form is invalid")
         # Set the focus on the first input that has a validation error
-        @boundingBox.find("input").each (index, input) ->
+        @node("inputs").each (index, input) ->
           bindingName = input.getAttribute("data-binding")
           if (validationResult[bindingName])
             input.focus()

@@ -33,6 +33,11 @@ define(["ccrpg/base", "ccrpg/ui/dataBinding", "handlebars", "i18next"], (Base, D
         processedMarkup = Handlebars.default.compile(@constructor.markup)()
         @contentBox.append($(processedMarkup))
 
+      @_extractedNodes = {}
+      if (@constructor.nodes)
+        for name, selector of @constructor.nodes
+          @_extractedNodes[name] = @contentBox.find(selector)
+
       @renderUi()
 
       if (@constructor.modelClass)
@@ -41,6 +46,11 @@ define(["ccrpg/base", "ccrpg/ui/dataBinding", "handlebars", "i18next"], (Base, D
 
       container.append(@boundingBox)
       return this
+
+    # Get the extracted node with the given name
+    # @param name The name of the node
+    # @return the node
+    node: (name) -> @_extractedNodes[name]
 
     # Get an Internationalized string for this widget
     # @param string The string key to get
