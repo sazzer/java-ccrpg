@@ -3,7 +3,7 @@ package uk.co.grahamcox.ccrpg.authentication.external.oauth2
 import uk.co.grahamcox.ccrpg.authentication.external.oauth2.OAuth2ConfigDao
 import uk.co.grahamcox.ccrpg.dao.NoRecordFoundException
 import uk.co.grahamcox.ccrpg.dao.BadlyFormedRecordException
-import org.slf4j.LoggerFactory
+import uk.co.grahamcox.LoggerFactory
 import kotlin.properties.Delegates
 
 /**
@@ -26,10 +26,10 @@ class ConfigLoader {
         try {
             dao.loadConfig(provider)
         } catch (e: NoRecordFoundException) {
-            LOG?.warn("No configuration found", e)
+            LOG.warn("No configuration found", e)
             null
         } catch (e: BadlyFormedRecordException) {
-            LOG?.warn("Configuration was badly formed", e)
+            LOG.warn("Configuration was badly formed", e)
             null
         }
         return result

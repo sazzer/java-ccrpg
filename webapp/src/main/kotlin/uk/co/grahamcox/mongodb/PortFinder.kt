@@ -2,7 +2,7 @@ package uk.co.grahamcox.mongodb
 
 import org.springframework.beans.factory.config.AbstractFactoryBean
 import java.net.ServerSocket
-import org.slf4j.LoggerFactory
+import uk.co.grahamcox.LoggerFactory
 
 /**
  * Find a free port to use
@@ -20,7 +20,7 @@ class PortFinder : AbstractFactoryBean<Int>() {
     override fun createInstance(): Int {
         val s = ServerSocket(0)
         val port = s.getLocalPort()
-        LOG?.debug("Using port: {}", port)
+        LOG.debug("Using port: {}", port)
         return port
     }
 }

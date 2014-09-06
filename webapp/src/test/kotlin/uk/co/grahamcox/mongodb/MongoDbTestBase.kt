@@ -2,7 +2,7 @@ package uk.co.grahamcox.mongodb
 
 import org.junit.Before
 import org.junit.After
-import org.slf4j.LoggerFactory
+import uk.co.grahamcox.LoggerFactory
 import java.net.ServerSocket
 import org.springframework.core.io.ClassPathResource
 import com.mongodb.DB
@@ -33,7 +33,7 @@ open class MongoDbTestBase(val seedData: Map<String, String>? = null) {
      */
     [Before]
     fun startMongoDb() {
-        LOG?.info("Starting the database")
+        LOG.info("Starting the database")
         mongo.start()
         mongoDb = MongoClient("localhost", mongoPort).getDB("unittest")
                 ?: throw IllegalArgumentException("No database returned")
@@ -47,7 +47,7 @@ open class MongoDbTestBase(val seedData: Map<String, String>? = null) {
      */
     [After]
     fun stopMongoDb() {
-        LOG?.info("Stopping the database")
+        LOG.info("Stopping the database")
         mongo.stop()
     }
 

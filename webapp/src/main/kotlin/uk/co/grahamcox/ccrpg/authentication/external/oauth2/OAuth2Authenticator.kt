@@ -1,7 +1,7 @@
 package uk.co.grahamcox.ccrpg.authentication.external.oauth2
 
 import uk.co.grahamcox.ccrpg.authentication.external.Authenticator
-import org.slf4j.LoggerFactory
+import uk.co.grahamcox.LoggerFactory
 import org.springframework.web.client.RestTemplate
 import uk.co.grahamcox.ccrpg.authentication.external.UnsupportedProviderException
 import uk.co.grahamcox.ccrpg.authentication.external.Nonce
@@ -54,7 +54,7 @@ class OAuth2Authenticator : Authenticator {
     override fun getRedirectUri(nonce: Nonce): URI? {
         val config = loadConfig()
 
-        LOG?.debug("Generating redirect URI for Nonce {} using Client ID {}",
+        LOG.debug("Generating redirect URI for Nonce {} using Client ID {}",
                 nonce, config.clientId)
         val result = UriComponentsBuilder.fromUri(config.authorizationEndpoint)
                 ?.queryParam("client_id", config.clientId)
@@ -74,7 +74,7 @@ class OAuth2Authenticator : Authenticator {
      */
     override fun handleCallback(nonce: Nonce, params: Map<String, String>) : AuthenticatedUser {
         val callbackParams = CallbackParams(params)
-        LOG?.debug("Handling callback for nonce {} with params {}", nonce, callbackParams)
+        LOG.debug("Handling callback for nonce {} with params {}", nonce, callbackParams)
 
         val config = loadConfig()
         val tokenRequestParams = LinkedMultiValueMap<String, String?>()
@@ -88,7 +88,7 @@ class OAuth2Authenticator : Authenticator {
                 tokenRequestParams,
                 javaClass<Map<String, String>>()) ?: throw IllegalArgumentException("No response returned"))
 
-        LOG?.debug("Response from requesting the authorization token: {}", tokenResponse)
+        LOG.debug("Response from requesting the authorization token: {}", tokenResponse)
         return userDetailsLoader.getUserDetails(tokenResponse)
     }
 }

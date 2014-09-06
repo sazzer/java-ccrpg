@@ -3,13 +3,13 @@ package uk.co.grahamcox.ccrpg.authentication.external.facebook
 import uk.co.grahamcox.ccrpg.authentication.external.oauth2.UserDetailsLoader
 import uk.co.grahamcox.ccrpg.authentication.external.oauth2.AccessTokenResponse
 import uk.co.grahamcox.ccrpg.authentication.external.AuthenticatedUser
-import org.slf4j.LoggerFactory
 import uk.co.grahamcox.ccrpg.authentication.external.oauth2.ConfigLoader
 import kotlin.properties.Delegates
 import org.springframework.web.client.RestTemplate
 import uk.co.grahamcox.ccrpg.TextPlainToMapHttpMessageConverter
 import java.net.URI
 import org.springframework.web.util.UriComponentsBuilder
+import uk.co.grahamcox.LoggerFactory
 
 /**
  * User Details loader to load the details from a Facebook login
@@ -33,10 +33,10 @@ class FacebookUserDetailsLoader : UserDetailsLoader {
                 ?.toUri()
                 ?: throw IllegalStateException("No URI built")
 
-        LOG?.debug("Requesting debug information for access token using: {}", uri)
+        LOG.debug("Requesting debug information for access token using: {}", uri)
         val accessTokenDetails = restTemplate.getForObject(uri,
                 javaClass<Map<String, String>>()) ?: throw IllegalStateException("No response returned")
-        LOG?.debug("Debug information for access token: {}", accessTokenDetails)
+        LOG.debug("Debug information for access token: {}", accessTokenDetails)
 
         return AuthenticatedUser(source = "facebook",
                 id = accessTokenDetails.get("id") ?: throw IllegalStateException("No user ID provided"))
