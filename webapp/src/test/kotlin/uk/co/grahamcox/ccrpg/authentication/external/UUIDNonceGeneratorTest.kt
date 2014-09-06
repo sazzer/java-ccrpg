@@ -4,7 +4,7 @@ import org.spek.Spek
 import org.junit.Assert
 import java.util.regex.Pattern
 
-class ExposedMessageSourceTest : Spek() {{
+class UUIDNonceGeneratorTest : Spek() {{
     given("a UUID Nonce Generator") {
         val nonceGenerator = UUIDNonceGenerator()
 
