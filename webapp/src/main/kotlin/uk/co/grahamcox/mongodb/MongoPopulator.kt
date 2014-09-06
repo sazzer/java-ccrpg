@@ -21,12 +21,12 @@ class MongoPopulator(val db: DB, val sources: Map<String, Resource>) {
 
     fun populate() {
         for ((collectionName, source) in sources) {
-            LOG.debug("Populating collection {} from source {}", collectionName, source)
+            LOG?.debug("Populating collection {} from source {}", collectionName, source)
             val collection = db.getCollection(collectionName) ?:
                     throw IllegalStateException("Failed to get collection ${collectionName}")
             val data = loadData(source)
             for (record in data) {
-                LOG.debug("Adding record {} to collection {}", data, collection)
+                LOG?.debug("Adding record {} to collection {}", data, collection)
                 collection.insert(record)
             }
         }

@@ -20,7 +20,7 @@ class PortFinder : AbstractFactoryBean<Int>() {
     override fun createInstance(): Int {
         val s = ServerSocket(0)
         val port = s.getLocalPort()
-        LOG.debug("Using port: {}", port)
+        LOG?.debug("Using port: {}", port)
         return port
     }
 }

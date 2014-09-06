@@ -33,10 +33,10 @@ class FacebookUserDetailsLoader : UserDetailsLoader {
                 ?.toUri()
                 ?: throw IllegalStateException("No URI built")
 
-        LOG.debug("Requesting debug information for access token using: {}", uri)
+        LOG?.debug("Requesting debug information for access token using: {}", uri)
         val accessTokenDetails = restTemplate.getForObject(uri,
                 javaClass<Map<String, String>>()) ?: throw IllegalStateException("No response returned")
-        LOG.debug("Debug information for access token: {}", accessTokenDetails)
+        LOG?.debug("Debug information for access token: {}", accessTokenDetails)
 
         return AuthenticatedUser(source = "facebook",
                 id = accessTokenDetails.get("id") ?: throw IllegalStateException("No user ID provided"))

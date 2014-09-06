@@ -33,9 +33,10 @@ open class MongoDbTestBase(val seedData: Map<String, String>? = null) {
      */
     [Before]
     fun startMongoDb() {
-        LOG.info("Starting the database")
+        LOG?.info("Starting the database")
         mongo.start()
         mongoDb = MongoClient("localhost", mongoPort).getDB("unittest")
+                ?: throw IllegalArgumentException("No database returned")
         if (seedData != null) {
             populateDatabase(seedData)
         }
@@ -46,7 +47,7 @@ open class MongoDbTestBase(val seedData: Map<String, String>? = null) {
      */
     [After]
     fun stopMongoDb() {
-        LOG.info("Stopping the database")
+        LOG?.info("Stopping the database")
         mongo.stop()
     }
 

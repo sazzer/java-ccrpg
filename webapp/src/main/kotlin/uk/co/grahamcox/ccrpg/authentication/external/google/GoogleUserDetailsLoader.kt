@@ -23,7 +23,7 @@ class GoogleUserDetailsLoader : UserDetailsLoader {
         } else {
             null
         }
-        LOG.debug("JWT: {}", jwt)
+        LOG?.debug("JWT: {}", jwt)
 
         return AuthenticatedUser(source = "google", id = jwt?.subject
                 ?: throw IllegalStateException("No User ID was returned"))

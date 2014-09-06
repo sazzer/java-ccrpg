@@ -26,10 +26,10 @@ class ConfigLoader {
         try {
             dao.loadConfig(provider)
         } catch (e: NoRecordFoundException) {
-            LOG.warn("No configuration found", e)
+            LOG?.warn("No configuration found", e)
             null
         } catch (e: BadlyFormedRecordException) {
-            LOG.warn("Configuration was badly formed", e)
+            LOG?.warn("Configuration was badly formed", e)
             null
         }
         return result
