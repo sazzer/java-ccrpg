@@ -1,7 +1,8 @@
 language: java
 jdk:
 - oraclejdk8
-after_success: mvn site site:deploy -Daws.accessKeyId=$AWS_ACCESS_KEY_ID -Daws.secretKey=$AWS_SECRET_KEY
+after_success: mvn site site:deploy
 env:
   global:
-    secure: RdK/IyBHDEb09E+jLtNe3AUMNeSi0ug+wNQ+Hc8pe5Wad4uxWStBNgZNJZbDbmqiwGqoZ6zcxCHE92Vl5YtnXQeLlN5GjIT0vEnuXkpKfrzjlAbzT8q+wk+tCJi/6HAzMEE3JNvbtLkDdGKurUGXnH78nqufDWbwy4K5/qykm/Q=
+  - secure: RdK/IyBHDEb09E+jLtNe3AUMNeSi0ug+wNQ+Hc8pe5Wad4uxWStBNgZNJZbDbmqiwGqoZ6zcxCHE92Vl5YtnXQeLlN5GjIT0vEnuXkpKfrzjlAbzT8q+wk+tCJi/6HAzMEE3JNvbtLkDdGKurUGXnH78nqufDWbwy4K5/qykm/Q=
+  - secure: Fu8UpM96NG1nPEas8dHridHKLkH1OGiQOZ3c8AUyFfMM0x8WKYSMfItFHN5lKcrqwzmscQpt5XYTbenEAdCq5+p1fngkbZRT4fK39VYH9/DleKxnEwS/d9yIx9LMuZQr1qopKKmvaJB1RiQk5CzWrjZA8tnrjBHgIlzID0ezyJk=
