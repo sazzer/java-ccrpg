@@ -2,3 +2,5 @@ language: java
 jdk:
 - oraclejdk8
 after_success: mvn site site:deploy
+env:
+  secure: RdK/IyBHDEb09E+jLtNe3AUMNeSi0ug+wNQ+Hc8pe5Wad4uxWStBNgZNJZbDbmqiwGqoZ6zcxCHE92Vl5YtnXQeLlN5GjIT0vEnuXkpKfrzjlAbzT8q+wk+tCJi/6HAzMEE3JNvbtLkDdGKurUGXnH78nqufDWbwy4K5/qykm/Q=
