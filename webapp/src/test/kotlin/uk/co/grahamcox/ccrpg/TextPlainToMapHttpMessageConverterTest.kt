@@ -26,7 +26,7 @@ class TextPlainToMapHttpMessageConverterTest {
 
     [Test]
     fun doesntSupportString() {
-        Assert.assertTrue(converter.canRead(javaClass<String>(), MediaType.TEXT_PLAIN))
+        Assert.assertFalse(converter.canRead(javaClass<String>(), MediaType.TEXT_PLAIN))
     }
 
     [Test]
