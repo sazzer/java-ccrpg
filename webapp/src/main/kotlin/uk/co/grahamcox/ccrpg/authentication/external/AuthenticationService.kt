@@ -23,8 +23,11 @@ class AuthenticationService {
      * @return the URI to redirect the user to
      */
     fun getRedirectUri(name: String, nonce: Nonce) : URI =
+        if (isActive(name))
             services.get(name)?.getRedirectUri(nonce)
                     ?: throw UnsupportedProviderException()
+        else
+            throw UnsupportedProviderException()
 
     /**
      * Get the list of all services that are currently active
@@ -39,6 +42,9 @@ class AuthenticationService {
      * @return the details of the authenticated user
      */
     fun handleCallback(name: String, nonce: Nonce, params: Map<String, String>) : AuthenticatedUser =
-        services.get(name)?.handleCallback(nonce, params)
-                ?: throw UnsupportedProviderException()
+            if (isActive(name))
+                services.get(name)?.handleCallback(nonce, params)
+                        ?: throw UnsupportedProviderException()
+            else
+                throw UnsupportedProviderException()
 }
