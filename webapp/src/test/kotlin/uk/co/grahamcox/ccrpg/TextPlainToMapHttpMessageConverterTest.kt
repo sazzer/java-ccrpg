@@ -1,39 +1,44 @@
 package uk.co.grahamcox.ccrpg
 
-import org.spek.Spek
 import org.springframework.http.MediaType
 import org.junit.Assert
 import org.springframework.mock.http.MockHttpInputMessage
 import java.nio.charset.Charset
+import kotlin.properties.Delegates
+import org.junit.Before
+import org.junit.Test
 
-class TextPlainToMapHttpMessageConverterTest : Spek() {{
-    given("The converter") {
-        val converter = TextPlainToMapHttpMessageConverter()
-        val supported = javaClass<java.util.Map<String, String>>()
-
-        on("Checking what it supports") {
-            it("Supports decoding into a Java Map") {
-                Assert.assertTrue(converter.canRead(supported, MediaType.TEXT_PLAIN))
-            }
-            it("Doesn't support decoding into a String") {
-                Assert.assertFalse(converter.canRead(javaClass<String>(), MediaType.TEXT_PLAIN))
-            }
-        }
-        on("Decoding a valid string") {
-            val inputMessage = MockHttpInputMessage("hello=world&answer=42".toByteArray(Charset.forName("UTF-8")))
-
-            val converted = converter.read(supported, inputMessage)
-                    ?: throw AssertionError("No converted value returned")
-
-            it("Has two entries") {
-                Assert.assertEquals(2, converted.size())
-            }
-            it("Has hello equal to world") {
-                Assert.assertEquals("world", converted.get("hello"))
-            }
-            it("Has answer equal to 42") {
-                Assert.assertEquals("42", converted.get("answer"))
-            }
-        }
+class TextPlainToMapHttpMessageConverterTest {
+    class object {
+        val SUPPORTED_CLASS = javaClass<java.util.Map<String, String>>()
     }
-}}
+    var converter: TextPlainToMapHttpMessageConverter by Delegates.notNull()
+
+    [Before]
+    fun setup() {
+        converter = TextPlainToMapHttpMessageConverter()
+    }
+
+    [Test]
+    fun supportsMap() {
+        Assert.assertTrue(converter.canRead(SUPPORTED_CLASS, MediaType.TEXT_PLAIN))
+    }
+
+    [Test]
+    fun doesntSupportString() {
+        Assert.assertTrue(converter.canRead(javaClass<String>(), MediaType.TEXT_PLAIN))
+    }
+
+    [Test]
+    fun decodingString() {
+        val inputMessage = MockHttpInputMessage("hello=world&answer=42".toByteArray(Charset.forName("UTF-8")))
+
+        val converted = converter.read(SUPPORTED_CLASS, inputMessage)
+                ?: throw AssertionError("No converted value returned")
+
+        Assert.assertEquals(2, converted.size())
+        Assert.assertEquals("world", converted.get("hello"))
+        Assert.assertEquals("42", converted.get("answer"))
+    }
+}
+

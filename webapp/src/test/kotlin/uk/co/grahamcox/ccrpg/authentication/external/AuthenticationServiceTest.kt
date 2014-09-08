@@ -1,69 +1,62 @@
 package uk.co.grahamcox.ccrpg.authentication.external
 
-import org.spek.Spek
 import org.easymock.EasyMock
 import org.junit.Assert
+import kotlin.properties.Delegates
+import org.junit.Before
+import org.junit.After
+import org.junit.Test
 
-class AuthenticationServiceTest : Spek() {{
-    val authenticationService = AuthenticationService()
-    val disabledAuthenticator = EasyMock.createMock(javaClass<Authenticator>()) ?: throw IllegalStateException()
-    EasyMock.expect(disabledAuthenticator.isActive())
-        ?.andReturn(false)
-        ?.anyTimes()
+class AuthenticationServiceTest {
+    var authenticationService: AuthenticationService by Delegates.notNull()
+    var authenticator: Authenticator by Delegates.notNull()
 
-    val enabledAuthenticator = EasyMock.createMock(javaClass<Authenticator>()) ?: throw IllegalStateException()
-    EasyMock.expect(enabledAuthenticator.isActive())
-        ?.andReturn(true)
-        ?.anyTimes()
+    [Before]
+    fun setup() {
+        authenticator = EasyMock.createMock(javaClass<Authenticator>()) ?: throw IllegalStateException()
 
-    EasyMock.replay(disabledAuthenticator, enabledAuthenticator)
-    authenticationService.services = mapOf("disabled" to disabledAuthenticator,
-            "enabled" to enabledAuthenticator)
-
-    given("A missing authenticator") {
-        on("Checking if it is active") {
-            val isActive = authenticationService.isActive("missing")
-            it("Isn't active") {
-                Assert.assertFalse(isActive)
-            }
-        }
-        on("Getting the redirect URI") {
-            it("Throws") {
-                try {
-                    authenticationService.getRedirectUri("missing", Nonce("Test"))
-                    Assert.fail("Expected UnsupportedProviderException")
-                } catch (e: UnsupportedProviderException) {
-                    // Expected this
-                }
-            }
-        }
+        authenticationService = AuthenticationService()
+        authenticationService.services = mapOf("authenticator" to authenticator)
     }
 
-    given("A disabled authenticator") {
-        on("Checking if it is active") {
-            val isActive = authenticationService.isActive("disabled")
-            it("Isn't active") {
-                Assert.assertFalse(isActive)
-            }
-        }
-        on("Getting the redirect URI") {
-            it("Throws") {
-                try {
-                    authenticationService.getRedirectUri("disabled", Nonce("Test"))
-                    Assert.fail("Expected UnsupportedProviderException")
-                } catch (e: UnsupportedProviderException) {
-                    // Expected this
-                }
-            }
-        }
+    [After]
+    fun verify() {
+        EasyMock.verify(authenticator)
     }
 
-    given("An enabled authenticator") {
-        on("Checking if it is active") {
-            val isActive = authenticationService.isActive("enabled")
-            it("Is active") {
-                Assert.assertTrue(isActive)
-            }
-        }
+    [Test]
+    fun missingAuthenticatorIsNotActive() {
+        EasyMock.replay(authenticator)
+        Assert.assertFalse(authenticationService.isActive("missing"))
     }
-}}
+
+    [Test]
+    fun disabledAuthenticatorIsNotActive() {
+        EasyMock.expect(authenticator.isActive())
+                ?.andReturn(false)
+        EasyMock.replay(authenticator)
+        Assert.assertFalse(authenticationService.isActive("authenticator"))
+    }
+
+    [Test]
+    fun enabledAuthenticatorIsNotActive() {
+        EasyMock.expect(authenticator.isActive())
+                ?.andReturn(true)
+        EasyMock.replay(authenticator)
+        Assert.assertTrue(authenticationService.isActive("authenticator"))
+    }
+
+    [Test(expected = javaClass<UnsupportedProviderException>())]
+    fun missingAuthenticatorFailsRedirectUri() {
+        EasyMock.replay(authenticator)
+        authenticationService.getRedirectUri("missing", Nonce("testing"))
+    }
+
+    [Test(expected = javaClass<UnsupportedProviderException>())]
+    fun disabledAuthenticatorFailsRedirectUri() {
+        EasyMock.expect(authenticator.isActive())
+                ?.andReturn(false)
+        EasyMock.replay(authenticator)
+        authenticationService.getRedirectUri("authenticator", Nonce("testing"))
+    }
+}
