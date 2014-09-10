@@ -21,11 +21,11 @@ class GoogleUserDetailsLoader : UserDetailsLoader {
         val jwt = if (idToken != null) {
             JWT(idToken)
         } else {
-            null
+            throw IllegalStateException("No JWT was returned")
         }
         LOG.debug("JWT: {}", jwt)
 
-        return AuthenticatedUser(source = "google", id = jwt?.subject
+        return AuthenticatedUser(source = "google", id = jwt.subject
                 ?: throw IllegalStateException("No User ID was returned"))
     }
 }
