@@ -40,6 +40,16 @@
                         </property>
                     </bean>
                 </entry>
+                <entry key="mock">
+                    <bean class="uk.co.grahamcox.ccrpg.authentication.external.mock.MockAuthenticator">
+                        <property name="configLoader">
+                            <bean class="uk.co.grahamcox.ccrpg.authentication.external.oauth2.ConfigLoader">
+                                <property name="dao" ref="oauth2ConfigDao" />
+                                <property name="provider" value="mock" />
+                            </bean>
+                        </property>
+                    </bean>
+                </entry>
             </map>
         </property>
     </bean>

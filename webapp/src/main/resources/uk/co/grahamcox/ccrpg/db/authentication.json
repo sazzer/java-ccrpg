@@ -13,5 +13,12 @@
         "redirectUri": "http://localhost:8080/api/authentication/external/facebook/callback",
         "authorizationEndpoint": "https://www.facebook.com/dialog/oauth",
         "tokenEndpoint": "https://graph.facebook.com/oauth/access_token"
+    }, {
+        "provider": "mock",
+        "clientId": "mock",
+        "clientSecret": "mock",
+        "redirectUri": "http://localhost:8080/api/authentication/external/mock/callback",
+        "authorizationEndpoint": "https://www.facebook.com/dialog/oauth",
+        "tokenEndpoint": "https://graph.facebook.com/oauth/access_token"
     }
 ]
